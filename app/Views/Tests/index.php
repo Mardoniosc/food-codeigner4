@@ -1,3 +1,6 @@
 <?php
 
-echo 'Essa é a view que o controller teste renderizou!';
+echo $titulo;
+echo '<br>';
+echo $subtitulo;
+echo '<br>';
