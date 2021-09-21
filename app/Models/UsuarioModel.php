@@ -19,4 +19,14 @@ class UsuarioModel extends Model
     protected $deletedField         = 'deletado_em';
 
 
+    public function procurar($term) {
+        if($term === null) {
+            return [];
+        }
+
+        return $this->select('id, nome')
+                        ->like('nome', $term)
+                        ->get()
+                        ->getResult();
+    }
 }

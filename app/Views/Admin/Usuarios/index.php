@@ -59,16 +59,16 @@
 
   <script>
     $(function() {
-      $( "#query" ).autocomplete({
+      $("#query").autocomplete({
         source: (request, response) => {
           $.ajax({
-            url: "<?php echo site_url('admin/usuarios/procurar')?>",
+            url: "<?php echo site_url('admin/usuarios/procurar'); ?>",
             dataType: "json",
             data: {
               term: request.term
             },
 
-            success: (data) => {
+            success: function (data) {
               if(data.length < 1) {
                 var data = [{
                   label: 'Usuario não encontrado',

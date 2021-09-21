@@ -30,11 +30,18 @@ class Usuarios extends BaseController {
         if (!$this->request->isAJAX()) {
             exit('Página não encontrada!');
         }
-        
-        echo "<pre>";
-        print_r($this->request->getGet());
-        echo "</pre>";
-        exit();
+
+        $usuarios = $this->usuarioModel->procurar($this->request->getGet('term'));
+
+        $retorno = [];
+
+        foreach ($usuarios as $usuario) {
+            $data['id'] = $usuario->id;
+            $data['value'] = $usuario->nome;
+            $retorno[] = $data;
+        }
+
+        return $this->response->setJSON($retorno);
 
     }
 }
