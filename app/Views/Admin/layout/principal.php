@@ -286,6 +286,6 @@
   <!-- Essa section renderizará os scripts especificos da view que estender esse lyout -->
   <?php echo $this->renderSection('scripts') ?>
 </body>
-
+BASIC
 </html>
 
