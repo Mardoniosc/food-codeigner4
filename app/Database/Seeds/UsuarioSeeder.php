@@ -12,17 +12,19 @@ class UsuarioSeeder extends Seeder
         $usuarioModel = new UsuarioModel;
 
         $usuario = [
-            'nome' => 'Mardonio Costa',
-            'email' => 'admin@admin.com',
-            'telefone' => '(61) 9 8888-4444'
+            'nome'      => 'Thomas Diego Sales',
+            'email'     => 'thomasdiegosales..thomasdiegosales@jovempanfmtaubate.com.br',
+            'telefone'  => '(84) 3812-2134',
+            'cpf'       => '863.075.953-45'
         ];
 
         $usuarioModel->protect(false)->insert($usuario);
 
         $usuario = [
-            'nome' => 'Maria Santos',
-            'email' => 'user@user.com',
-            'telefone' => '(61) 5 4444-2222'
+            'nome'      => 'Aparecida Andreia Julia Barbosa',
+            'email'     => 'aparecidaandreiajuliabarbosa@supercarioca.com',
+            'telefone'  => '(21) 3961-8815',
+            'cpf'       => '790.056.517-50'
         ];
 
         $usuarioModel->protect(false)->insert($usuario);
