@@ -19,6 +19,11 @@ class UsuarioModel extends Model
     protected $deletedField         = 'deletado_em';
 
 
+    /**
+     * @uso Controller usuario no método procurar com o autocomplete
+     * @param string $term
+     * @return array usuarios
+     */
     public function procurar($term) {
         if($term === null) {
             return [];

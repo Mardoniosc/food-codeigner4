@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\UsuarioModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Usuarios extends BaseController {
     
@@ -43,5 +44,26 @@ class Usuarios extends BaseController {
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function show($id = null) {
+
+        $usuario = $this->buscarUsuarioOu404($id);
+
+        dd($usuario);
+    }
+
+    // METHODS PRIVATE
+
+    /**
+     * @param int $id
+     * @return objeto usuário
+     */
+    private function buscarUsuarioOu404(int $id = null) {
+        if(!$id || !$usuario = $this->usuarioModel->where('id', $id)->first()) {
+            throw PageNotFoundException::forPageNotFound("Não encontramos o usuário $id");
+        }
+
+        return $usuario;
     }
 }
