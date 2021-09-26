@@ -39,13 +39,30 @@
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Criado:</span>
-            <?php echo $usuario->criado_em;?>
+            <?php echo $usuario->criado_em->humanize();?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Atualizado:</span>
-            <?php echo $usuario->atualizado_em; ?>
+            <?php echo $usuario->atualizado_em->humanize(); ?>
           </p>
 
+          
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: space-between;">
+          <a 
+            href="<?php echo site_url("admin/usuarios/editar/$usuario->id")?>" 
+            class="btn btn-dark btn-sm btn-icon-text"
+          > <i class="mdi mdi-file-check btn-icon-append"></i> Editar</a>
+
+          <a 
+            href="<?php echo site_url("admin/usuarios/excluir/$usuario->id")?>" 
+            class="btn btn-danger btn-sm btn-icon-text"
+          > <i class="mdi mdi-close-circle btn-icon-append"></i> Excluir</a>
+
+          <a 
+            href="<?php echo site_url("admin/usuarios/editar/$usuario->id")?>" 
+            class="btn btn-info btn-sm btn-icon-text"
+          > <i class="mdi mdi-information-outline btn-icon-append"></i> Voltar</a>
 
         </div>
       </div>
