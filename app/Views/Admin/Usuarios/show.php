@@ -52,17 +52,17 @@
           <a 
             href="<?php echo site_url("admin/usuarios/editar/$usuario->id")?>" 
             class="btn btn-dark btn-sm btn-icon-text"
-          > <i class="mdi mdi-file-check btn-icon-append"></i> Editar</a>
+          > <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
 
           <a 
             href="<?php echo site_url("admin/usuarios/excluir/$usuario->id")?>" 
             class="btn btn-danger btn-sm btn-icon-text"
-          > <i class="mdi mdi-close-circle btn-icon-append"></i> Excluir</a>
+          > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
 
           <a 
             href="<?php echo site_url("admin/usuarios/editar/$usuario->id")?>" 
-            class="btn btn-info btn-sm btn-icon-text"
-          > <i class="mdi mdi-information-outline btn-icon-append"></i> Voltar</a>
+            class="btn btn-light text-dark btn-sm btn-icon-text"
+          > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 
         </div>
       </div>
