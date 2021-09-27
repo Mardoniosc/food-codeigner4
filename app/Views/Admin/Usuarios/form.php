@@ -27,8 +27,8 @@
   </div>
   
   <div class="form-group col-md-3">
-    <label for="passwordConfirm">Confirmação de senha</label>
-    <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+    <label for="password_confirm">Confirmação de senha</label>
+    <input type="password" class="form-control" id="password_confirm" name="password_confirm">
   </div>
 
   <div class="form-group col-md-3">

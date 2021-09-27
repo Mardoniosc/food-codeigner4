@@ -19,6 +19,34 @@ class UsuarioModel extends Model
     protected $deletedField         = 'deletado_em';
 
 
+    protected $validationRules = [
+        'nome' => 'required|min_length[4]|max_length[120]',
+        'email' => 'required|valid_email|is_unique[usuarios.email]',
+        'cpf' => 'required|is_unique[usuarios.cpf]|exact_length[14]',
+        'password' => 'required|min_length[4]',
+        'password_confirm' => 'required_with[password]|matches[password]',
+    ];
+
+    protected $validationMessages = [
+        'email' => [
+            'required' => 'Campo ainda não preenchido!',
+            'is_unique' => 'Desculpe. Este e-mail já existe',
+        ],
+        'cpf' => [
+            'required' => 'Campo ainda não preenchido!',
+            'is_unique' => 'Desculpe. Este e-mail já existe',
+        ],
+        'nome' => [
+            'required' => 'Campo ainda não preenchido!',
+        ],
+        'password' => [
+            'required' => 'Campo ainda não preenchido!',
+            'min_length' => 'Senha deve ter no minimo 6 dígitos'
+        ],
+
+    ];
+
+
     /**
      * @uso Controller usuario no método procurar com o autocomplete
      * @param string $term
