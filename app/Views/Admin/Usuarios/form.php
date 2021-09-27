@@ -30,6 +30,36 @@
     <label for="passwordConfirm">Confirmação de senha</label>
     <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
   </div>
+
+  <div class="form-group col-md-3">
+    <label for="is_admin">Perfil de acesso</label>
+    <select class="form-control" name="is_admin">
+      <?php if($usuario->id):?>
+        <option value="1" <?php echo ($usuario->is_admin? 'selected':'');?>>Administrador</option>
+        <option value="0" <?php echo (!$usuario->is_admin? 'selected':'');?>>Cliente</option>
+      <?php else: ?>
+        <option value="1">Sim</option>
+        <option value="0" selected>Não</option>
+      <?php endif;?>
+    
+    </select>
+  </div>
+
+  <div class="form-group col-md-3">
+    <label for="ativo">Ativo</label>
+    <select class="form-control" name="ativo">
+      <?php if($usuario->id):?>
+        <option value="1" <?php echo ($usuario->ativo? 'selected':'');?>>Sim</option>
+        <option value="0" <?php echo (!$usuario->ativo? 'selected':'');?>>Não</option>
+      <?php else: ?>
+        <option value="1">Sim</option>
+        <option value="0" selected>Não</option>
+      <?php endif;?>
+    
+    </select>
+  </div>
+
+  
 </div>
 
 

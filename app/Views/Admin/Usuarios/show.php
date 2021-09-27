@@ -60,7 +60,7 @@
           > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
 
           <a 
-            href="<?php echo site_url("admin/usuarios/editar/$usuario->id")?>" 
+            href="<?php echo site_url("admin/usuarios")?>" 
             class="btn btn-light text-dark btn-sm btn-icon-text"
           > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 
