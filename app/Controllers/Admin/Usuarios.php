@@ -78,9 +78,27 @@ class Usuarios extends BaseController {
 
             $post = $this->request->getPost();
 
+            if(empty($post['password'])) {
+                $this->usuarioModel->desabilitaValidacaoSenha();
+                unset($post['password']);
+                unset($post['password_confirm']);
+            }
+
             $usuario->fill($post);
 
-            dd($usuario);
+            if(!$usuario->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->usuarioModel->protect(false)->save($usuario)) {
+                return redirect()->to(site_url("admin/usuarios/show/$usuario->id"))
+                                 ->with('sucesso', "$usuario->nome, atualizado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->usuarioModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!');
 
 
         } else {
