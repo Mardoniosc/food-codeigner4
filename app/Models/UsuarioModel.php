@@ -54,6 +54,22 @@ class UsuarioModel extends Model
     ];
 
 
+    // Eventos callback
+    protected $beforeInsert = ['hashPassword'];
+    protected $beforeUpdate = ['hashPassword'];
+
+    protected function hashPassword(array $data) {
+        if(isset($data['data']['password'])) {
+
+            $data['data']['password_hash'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+
+            unset($data['data']['password']);
+            unset($data['data']['password_confirm']);
+        }
+        
+        return $data;
+    }
+
     /**
      * @uso Controller usuario no método procurar com o autocomplete
      * @param string $term
