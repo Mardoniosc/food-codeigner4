@@ -1,22 +1,22 @@
 <div class="form-row">
   <div class="form-group col-md-4">
     <label for="nome">Nome</label>
-    <input type="text" class="form-control" id="nome" value="<?php echo $usuario->nome; ?>">
+    <input type="text" class="form-control" id="nome" name="nome" value="<?php echo esc($usuario->nome); ?>">
   </div>
 
   <div class="form-group col-md-2">
     <label for="cpf">CPF</label>
-    <input type="text" class="form-control cpf" id="cpf" value="<?php echo $usuario->cpf; ?>">
+    <input type="text" class="form-control cpf" id="cpf" name="cpf" value="<?php echo esc($usuario->cpf); ?>">
   </div>
 
   <div class="form-group col-md-2">
     <label for="telefone">Telefone</label>
-    <input type="telefone" class="form-control sp_celphones" id="telefone" value="<?php echo $usuario->telefone; ?>">
+    <input type="telefone" class="form-control sp_celphones" id="telefone" name="telefone" value="<?php echo esc($usuario->telefone); ?>">
   </div>
 
   <div class="form-group col-md-4">
     <label for="email">E-mail</label>
-    <input type="email" class="form-control" id="email" value="<?php echo $usuario->email; ?>">
+    <input type="email" class="form-control" id="email" name="email" value="<?php echo esc($usuario->email); ?>">
   </div>
 </div>
 
@@ -58,12 +58,11 @@
     
     </select>
   </div>
-
-  
+ 
 </div>
 
 
-<button class="btn btn-primary btn-sm mr-2 btn-icon-text">
+<button type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
   <i class="mdi mdi-content-save btn-icon-prepend"></i>
   Salvar
 </button>

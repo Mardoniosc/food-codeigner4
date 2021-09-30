@@ -70,6 +70,25 @@ class Usuarios extends BaseController {
         return view('Admin/Usuarios/editar', $data);
     }
 
+    public function atualizar($id = null) {
+        
+        if($this->request->getPost()) {
+            
+            $usuario = $this->buscarUsuarioOu404($id);
+
+            $post = $this->request->getPost();
+
+            $usuario->fill($post);
+
+            dd($usuario);
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }    
+
     // METHODS PRIVATE
 
     /**
