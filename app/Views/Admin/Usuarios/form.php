@@ -30,37 +30,25 @@
     <label for="password_confirm">Confirmação de senha</label>
     <input type="password" class="form-control" id="password_confirm" name="password_confirm">
   </div>
-
-  <div class="form-group col-md-3">
-    <label for="is_admin">Perfil de acesso</label>
-    <select class="form-control" name="is_admin">
-      <?php if($usuario->id):?>
-        <option value="1" <?php echo ($usuario->is_admin? 'selected':'');?> <?php echo set_select('is_admin', '1'); ?> >Administrador</option>
-        <option value="0" <?php echo (!$usuario->is_admin? 'selected':'');?> <?php echo set_select('is_admin', '0'); ?>>Cliente</option>
-      <?php else: ?>
-        <option value="1">Sim</option>
-        <option value="0" selected>Não</option>
-      <?php endif;?>
-    
-    </select>
-  </div>
-
-  <div class="form-group col-md-3">
-    <label for="ativo">Ativo</label>
-    <select class="form-control" name="ativo">
-      <?php if($usuario->id):?>
-        <option value="1" <?php echo ($usuario->ativo? 'selected':'');?><?php echo set_select('ativo', '1'); ?> >Sim</option>
-        <option value="0" <?php echo (!$usuario->ativo? 'selected':'');?><?php echo set_select('ativo', '0'); ?> >Não</option>
-      <?php else: ?>
-        <option value="1" <?php echo set_select('ativo', '1'); ?>>Sim</option>
-        <option value="0" <?php echo set_select('ativo', '0'); ?> >Não</option>
-      <?php endif;?>
-    
-    </select>
-  </div>
- 
 </div>
 
+<div class="form-check form-check-flat form-check-primary mb-3">
+  <label for="ativo" class="form-check-label">
+    <input type="hidden" name="ativo" value="0">
+
+    <input type="checkbox" id="ativo" name="ativo" value="1" <?php if(old('ativo',$usuario->ativo)): ?> checked <?php endif; ?>>
+    Ativo
+  </label>
+</div>
+
+<div class="form-check form-check-flat form-check-primary mb-4">
+  <label for="is_admin" class="form-check-label">
+    <input type="hidden" name="is_admin" value="0">
+
+    <input type="checkbox" id="is_admin" name="is_admin" value="1" <?php if(old('is_admin',$usuario->is_admin)): ?> checked <?php endif; ?>>
+    Administrador
+  </label>
+</div>
 
 <button type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
   <i class="mdi mdi-content-save btn-icon-prepend"></i>
