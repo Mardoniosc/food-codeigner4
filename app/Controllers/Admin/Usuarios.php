@@ -61,7 +61,7 @@ class Usuarios extends BaseController {
 
     public function cadastrar() {
         
-        if($this->request->getPost()) {
+        if($this->request->getMethod() === 'post') {
             
             $usuario = new Usuario($this->request->getPost());
 
@@ -109,7 +109,7 @@ class Usuarios extends BaseController {
 
     public function atualizar($id = null) {
         
-        if($this->request->getPost()) {
+        if($this->request->getMethod() === 'post') {
             
             $usuario = $this->buscarUsuarioOu404($id);
 
@@ -143,7 +143,26 @@ class Usuarios extends BaseController {
             /* Não é POST */
             return redirect()->back();
         }
-    }    
+    }
+
+    public function excluir($id = null) {
+
+        $usuario = $this->buscarUsuarioOu404($id);
+        if($this->request->getMethod() === 'post') {
+
+            $this->usuarioModel->delete($id);
+            
+            return redirect()->to(site_url('admin/usuarios'))
+                             ->with('sucesso', "Usuário $usuario->nome excluído com sucesso!");
+        }
+
+        $data = [
+            'titulo'  => "Excluindo o usuário $usuario->nome",
+            'usuario' => $usuario,
+        ];
+
+        return view('Admin/Usuarios/excluir', $data);
+    }
 
     // METHODS PRIVATE
 
