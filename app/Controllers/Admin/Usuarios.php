@@ -148,6 +148,11 @@ class Usuarios extends BaseController {
     public function excluir($id = null) {
 
         $usuario = $this->buscarUsuarioOu404($id);
+
+        if($usuario->is_admin) {
+            return redirect()->back()->with("info", "Não é possível excluir um usuário <strong>Administrador<strong>");
+        }
+
         if($this->request->getMethod() === 'post') {
 
             $this->usuarioModel->delete($id);
@@ -164,6 +169,25 @@ class Usuarios extends BaseController {
         return view('Admin/Usuarios/excluir', $data);
     }
 
+    public function desfazerexclusao($id = null) {
+
+        $usuario = $this->buscarUsuarioOu404($id);
+
+        if(!$usuario->deletado_em) {
+            return redirect()->back()->with('info', 'Apenas usuário excluídos podem ser recuperados');
+        }
+
+        if($this->usuarioModel->desafazerExclusao($id)) {
+            return redirect()->back()->with('sucesso', 'Exclusão desfeita com sucesso!');
+        }
+
+        return redirect()->back()
+                            ->with("errors_model", $this->usuarioModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
+    }
+
+
     // METHODS PRIVATE
 
     /**
@@ -171,7 +195,7 @@ class Usuarios extends BaseController {
      * @return objeto usuário
      */
     private function buscarUsuarioOu404(int $id = null) {
-        if(!$id || !$usuario = $this->usuarioModel->where('id', $id)->first()) {
+        if(!$id || !$usuario = $this->usuarioModel->withDeleted(true)->where('id', $id)->first()) {
             throw PageNotFoundException::forPageNotFound("Não encontramos o usuário $id");
         }
 

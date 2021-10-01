@@ -89,4 +89,12 @@ class UsuarioModel extends Model
         unset($this->validationRules['password']);
         unset($this->validationRules['password_confirm']);
     }
+
+    public function desafazerExclusao(int $id) {
+
+        return $this->protect(false)
+                        ->where('id', $id)
+                        ->set('deletado_em', null)
+                        ->update();
+    }
 }
