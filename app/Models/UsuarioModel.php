@@ -22,7 +22,7 @@ class UsuarioModel extends Model
     protected $validationRules = [
         'nome' => 'required|min_length[4]|max_length[120]',
         'email' => 'required|valid_email|is_unique[usuarios.email]',
-        'cpf' => 'required|is_unique[usuarios.cpf]|exact_length[14]',
+        'cpf' => 'required|is_unique[usuarios.cpf]|exact_length[14]|validaCpf',
         'telefone' => 'required',
         'password' => 'required|min_length[4]',
         'password_confirm' => 'required_with[password]|matches[password]',
@@ -66,7 +66,6 @@ class UsuarioModel extends Model
             unset($data['data']['password']);
             unset($data['data']['password_confirm']);
         }
-        
         return $data;
     }
 
