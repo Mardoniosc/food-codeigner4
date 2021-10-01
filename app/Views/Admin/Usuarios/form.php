@@ -54,6 +54,4 @@
   <i class="mdi mdi-content-save btn-icon-prepend"></i>
   Salvar
 </button>
-<a href="<?php echo site_url("admin/usuarios/show/$usuario->id")?>" 
-  class="btn btn-light text-dark btn-sm btn-icon-text"
-> <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
+

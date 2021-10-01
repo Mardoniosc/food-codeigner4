@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Usuario;
 use App\Models\UsuarioModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -44,6 +45,42 @@ class Usuarios extends BaseController {
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function criar() {
+
+        $usuario = new Usuario();
+
+        $data = [
+            'titulo'  => "Criando novo usuário",
+            'usuario' => $usuario,
+        ];
+
+        return view('Admin/Usuarios/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getPost()) {
+            
+            $usuario = new Usuario($this->request->getPost());
+
+            if($this->usuarioModel->protect(false)->save($usuario)) {
+                return redirect()->to(site_url("admin/usuarios/show/" . $this->usuarioModel->getInsertID()))
+                                 ->with('sucesso', "Usuário $usuario->nome, cadastrado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->usuarioModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
     public function show($id = null) {
@@ -92,7 +129,7 @@ class Usuarios extends BaseController {
 
             if($this->usuarioModel->protect(false)->save($usuario)) {
                 return redirect()->to(site_url("admin/usuarios/show/$usuario->id"))
-                                 ->with('sucesso', "$usuario->nome, atualizado com sucesso!");
+                                 ->with('sucesso', "Usuário $usuario->nome, atualizado com sucesso!");
 
             }
 
