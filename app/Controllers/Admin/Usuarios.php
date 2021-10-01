@@ -99,6 +99,12 @@ class Usuarios extends BaseController {
 
         $usuario = $this->buscarUsuarioOu404($id);
 
+        if ($usuario->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "O usuário $usuario->nome encontra-se excluído. Portando não é possível edita-lo!");
+        }
+
         $data = [
             'titulo'  => "Editando o usuário $usuario->nome",
             'usuario' => $usuario,
@@ -112,6 +118,12 @@ class Usuarios extends BaseController {
         if($this->request->getMethod() === 'post') {
             
             $usuario = $this->buscarUsuarioOu404($id);
+
+            if ($usuario->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "O usuário $usuario->nome encontra-se excluído. Portando não é possível edita-lo!");
+            }
 
             $post = $this->request->getPost();
 
@@ -148,6 +160,12 @@ class Usuarios extends BaseController {
     public function excluir($id = null) {
 
         $usuario = $this->buscarUsuarioOu404($id);
+
+        if ($usuario->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "O usuário $usuario->nome já encontra-se excluído");
+        }
 
         if($usuario->is_admin) {
             return redirect()->back()->with("info", "Não é possível excluir um usuário <strong>Administrador<strong>");
