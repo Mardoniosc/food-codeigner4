@@ -44,9 +44,59 @@ use App\Models\UsuarioModel;
     return true;
   }
 
+  public function logout() {
+    session()->destroy();
+  }
+
+  public function pegaUsuarioLogado() {
+    
+    /**
+     * Não esquecer de compartilhar a instância com services
+     */
+    if(!$this->usuario) {
+      $this->usuario = $this->pegaUsuarioDaSessao();
+    }
+
+    /* Retornamos o usuário que foi definido no início da classe */
+    return $this->usuario;
+  }
+
+  /**
+   * @descrição: O método só permite ficar logado na aplicação aquele que ainda existir na base e que estaja ativo.
+   *             Do contrário, será feito o logout do mesmo, caso haja uma mudança na sua conta durante a sua sessão.
+   * 
+   * @uso: No filtro LoginFilter
+   * 
+   * @return boolean Retorna true se o método pegaUsuarioLogado() não for null. Ou seja, se o usuário estiver logado.
+   */
+  public function estaLogado() {
+    return $this->pegaUsuarioLogado() !== null;
+  }
+
+
+  /* METODOS PRIVADOS  */
+  
+  private function pegaUsuarioDaSessao() {
+    if(!session()->has('usuario_id')) {
+      return null;
+    }
+
+    /* Insatanciamos o model Usuário */
+    $usuarioModel = new UsuarioModel();
+
+    /* Recupera o usuário de acordo com a chave da sessão 'usuário_id' */
+    $usuario = $usuarioModel->find(session('usuario_id'));
+
+    /* Só retorno o objeto $usuário se o mesmo for encontrado e estiver ativo */
+    if($usuario && $usuario->ativo) {
+      return $usuario;
+    }
+  }
+
   private function logaUsuario(object $usuario) {
       $session = session();
       $session->regenerate();
       $session->set('usuario_id', $usuario->id);
   }
+
 }
