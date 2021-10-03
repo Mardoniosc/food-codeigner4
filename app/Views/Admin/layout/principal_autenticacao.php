@@ -18,7 +18,6 @@
 <body>
   <div class="container-scroller">
 
-  
     <?php echo $this->renderSection('conteudo') ?>
 
     
