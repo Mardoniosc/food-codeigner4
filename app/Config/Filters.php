@@ -4,6 +4,7 @@ namespace Config;
 
 use App\Filters\AdminFilter;
 use App\Filters\LoginFilter;
+use App\Filters\VisitanteFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -23,6 +24,7 @@ class Filters extends BaseConfig
         'honeypot' => Honeypot::class,
         'login' => LoginFilter::class, // filtro de login
         'admin' => AdminFilter::class, // filtro de perfil Administrador
+        'visitante' => VisitanteFilter::class, // filtro de visitante
     ];
 
     /**
