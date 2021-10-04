@@ -97,4 +97,13 @@ class UsuarioModel extends Model
                         ->set('deletado_em', null)
                         ->update();
     }
+
+    /**
+     * @uso Classe Autenticacao
+     * @param string $email
+     * @return objeto $usuario
+     */
+    public function buscaUsuariorEmail(string $email) {
+        return $this->where('email', $email)->first();
+    }
 }
