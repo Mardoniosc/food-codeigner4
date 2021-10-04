@@ -2,10 +2,14 @@
 
 namespace Config;
 
+use App\Filters\AdminFilter;
+use App\Filters\LoginFilter;
+use App\Filters\VisitanteFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
+use CodeIgniter\Throttle\Throttler;
 
 class Filters extends BaseConfig
 {
@@ -16,9 +20,13 @@ class Filters extends BaseConfig
      * @var array
      */
     public $aliases = [
-        'csrf'     => CSRF::class,
-        'toolbar'  => DebugToolbar::class,
-        'honeypot' => Honeypot::class,
+        'csrf'      => CSRF::class,
+        'toolbar'   => DebugToolbar::class,
+        'honeypot'  => Honeypot::class,
+        'login'     => LoginFilter::class, // filtro de login
+        'admin'     => AdminFilter::class, // filtro de perfil Administrador
+        'visitante' => VisitanteFilter::class, // filtro de visitante
+        'throttle'  => Throttler::class, // filtro que ajuda a prenivir ataques de força bruta
     ];
 
     /**
@@ -47,7 +55,9 @@ class Filters extends BaseConfig
      *
      * @var array
      */
-    public $methods = [];
+    public $methods = [
+        'post' => ['throttle']
+    ];
 
     /**
      * List of filter aliases that should run on any
@@ -58,5 +68,16 @@ class Filters extends BaseConfig
      *
      * @var array
      */
-    public $filters = [];
+    public $filters = [
+        'login' => [
+            'before' => [
+                'admin/*', // Todos os controller que estão dentro do namespace 'admin' só serão acessados após o login
+            ]
+        ],
+        'admin' => [
+            'before' => [
+                'admin/*', // Todos os controller que estão dentro do namespace 'admin' só serão acessados por administradores
+            ]
+        ],
+    ];
 }
