@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Libraries;
 use App\Models\UsuarioModel;
 
 /**

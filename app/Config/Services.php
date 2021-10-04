@@ -2,7 +2,7 @@
 
 namespace Config;
 
-use Autenticacao;
+use App\Libraries\Autenticacao;
 use CodeIgniter\Config\BaseService;
 
 /**

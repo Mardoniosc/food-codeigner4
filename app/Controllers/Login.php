@@ -14,4 +14,39 @@ class Login extends BaseController {
 
         return view('Login/novo', $data);
     }
+
+    public function criar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $email = $this->request->getPost('email');
+            $password = $this->request->getPost('password');
+
+
+            $autenticacao = service('autenticacao');
+
+            if($autenticacao->login($email, $password)) {
+
+                $usuario = $autenticacao->pegaUsuarioLogado();
+
+                return redirect()->to(site_url('admin/home'))->with('sucesso', "Olá $usuario->nome, que bom que está de volta!");
+            }
+
+            return redirect()->back()->with('atencao', 'Não foi enctrado suas credencias de acesso!');
+        }
+
+        return redirect()->back()->with("error", "Erro ao processar sua requisição");
+    }
+
+
+    /**
+     * VAMOS ALTERAR ESSE METHODO
+     */
+    public function logout() {
+
+        service('autenticacao')->logout();
+        
+        return redirect()->to(site_url('login'));
+
+    }
 }
