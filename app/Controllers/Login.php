@@ -29,6 +29,10 @@ class Login extends BaseController {
 
                 $usuario = $autenticacao->pegaUsuarioLogado();
 
+                if(!$usuario->is_admin) {
+                    return redirect()->to(site_url('/'));
+                }
+
                 return redirect()->to(site_url('admin/home'))->with('sucesso', "Olá $usuario->nome, que bom que está de volta!");
             }
 

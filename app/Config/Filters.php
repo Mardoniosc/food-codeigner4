@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\AdminFilter;
 use App\Filters\LoginFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -21,6 +22,7 @@ class Filters extends BaseConfig
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
         'login' => LoginFilter::class, // filtro de login
+        'admin' => AdminFilter::class, // filtro de perfil Administrador
     ];
 
     /**
@@ -63,8 +65,13 @@ class Filters extends BaseConfig
     public $filters = [
         'login' => [
             'before' => [
-                'admin/*',
+                'admin/*', // Todos os controller que estão dentro do namespace 'admin' só serão acessados após o login
             ]
-        ]
+        ],
+        'admin' => [
+            'before' => [
+                'admin/*', // Todos os controller que estão dentro do namespace 'admin' só serão acessados por administradores
+            ]
+        ],
     ];
 }
