@@ -32,7 +32,7 @@ class Login extends BaseController {
                 return redirect()->to(site_url('admin/home'))->with('sucesso', "Olá $usuario->nome, que bom que está de volta!");
             }
 
-            return redirect()->back()->with('atencao', 'Não foi enctrado suas credencias de acesso!');
+            return redirect()->back()->with('atencao', 'Não foi encontrado suas credencias de acesso!');
         }
 
         return redirect()->back()->with("error", "Erro ao processar sua requisição");
