@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\Token;
 use CodeIgniter\Model;
 
 class UsuarioModel extends Model
@@ -105,5 +106,24 @@ class UsuarioModel extends Model
      */
     public function buscaUsuariorEmail(string $email) {
         return $this->where('email', $email)->first();
+    }
+
+
+    public function buscaUsuarioParaResetarSenha(string $token) {
+    
+        $token = new Token($token);
+        
+        $tokenHash = $token->getHash();
+
+        $usuario = $this->where('reset_hash', $tokenHash)->first();
+
+        if($usuario) {
+            if($usuario->reset_expira_em < date('Y-m-d H:i:s')) {
+                $usuario = null;
+            }
+
+            return $usuario;
+        }
+
     }
 }

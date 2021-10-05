@@ -54,6 +54,17 @@ class Password extends BaseController {
 
     }
 
+    public function reset($token = null) {
+    
+        if($token === null) {
+            return redirect()->to(site_url('password/esqueci'))->with('atencao', "Link inválido ou expirado!");
+        }
+
+        $usuario = $this->usuarioModel->buscaUsuarioParaResetarSenha($token);
+
+        dd($usuario);
+    }
+
 
     private function enviaEmailRedefinicaoSenha(object $usuario) {
         $email = Services::email();

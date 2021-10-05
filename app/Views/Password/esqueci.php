@@ -103,7 +103,6 @@
   <script>
     $("form").submit(function() {
       $(this).find(":submit").attr('disabled', 'disabled');
-
       $("#btn-reset-senha").val('Enviando e-mail de recuperação...')
     });
   </script>
