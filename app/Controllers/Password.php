@@ -39,9 +39,7 @@ class Password extends BaseController {
 
             $usuario->iniciaPasswordReset();
 
-            /**
-             * @ATENÇÃO: Precisamos atualizar o modelo Usuario
-             */
+            $this->usuarioModel->save($usuario);
 
             $this->enviaEmailRedefinicaoSenha($usuario);
 
@@ -49,7 +47,6 @@ class Password extends BaseController {
                     ->to(site_url('login'))
                     ->with('sucesso', "E-mail de redefinição de senha enviado para sua caixa de entrada!");
 
-            // dd($usuario);
         }
 
         /* Não é POST */

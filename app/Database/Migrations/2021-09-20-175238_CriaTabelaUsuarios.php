@@ -58,7 +58,7 @@ class CriaTabelaUsuarios extends Migration
                 'null'       => true,
                 'unique'     => true,
             ],
-            'password_expira_em' => [
+            'reset_expira_em' => [
                 'type'       => 'DATETIME',
                 'null'       => true,
                 'default'    => null
