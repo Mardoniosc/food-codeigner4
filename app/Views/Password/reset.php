@@ -58,38 +58,47 @@
             <!-- captura os erros de CSRF - Ação não permitida -->
             <?php if(session()->has('error')):?>
 
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <strong>Error!</strong> <?php echo session('error');?>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> <?php echo session('error');?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
 
             <?php endif;?>
+            
+            
             <div class="brand-logo">
               <img src="<?php  echo site_url("admin/")?>images/logo.svg" alt="logo">
             </div>
-            <h4>Olá, seja bem vindo(a) </h4>
-            <h6 class="font-weight-light mb-3">Favor realize o login.</h6>
-            <?php echo form_open('login/criar'); ?>
+            <h4>Recuperando a senha!</h4>
+            <h6 class="font-weight-light mb-3"><?php echo $titulo; ?></h6>
+
+            <?php if(session()->has('errors_model')): ?>
+
+              <ul>
+                <?php foreach(session('errors_model') as $error): ?>
+                  <li class="text-danger"> <?php echo $error; ?> </li>
+                <?php endforeach; ?>
+              </ul>
+
+            <?php endif; ?>
+
+            <?php echo form_open("password/processareset/$token"); ?>
 
               <div class="form-group">
-                <input type="email" value="<?php echo  old('email'); ?>" class="form-control form-control-lg" name="email" placeholder="Digite o seu E-mail">
+                <label for="password">Nova Senha</label>
+                <input type="password" class="form-control" name="password" id="password">
               </div>
+              
               <div class="form-group">
-                <input type="password" name="password" class="form-control form-control-lg" placeholder="Digite a sua senha">
+                <label for="password_confirm">Confirmação da nova senha</label>
+                <input type="password" class="form-control" id="password_confirm" name="password_confirm">
               </div>
+
 
               <div class="mt-3 text-center">
-                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Entrar</button>
-              </div>
-
-              <div class="my-2 mt-3 d-flex justify-content-between align-items-center">
-                  <a href="<?php echo site_url('password/esqueci'); ?>" class="auth-link text-black">Esqueci minha senha</a>
-              </div>
-
-              <div class="text-center mt-4 font-weight-light">
-                Ainda não tem uma conta? <a href="<?php echo site_url('registrar')?>" class="text-primary">Criar conta</a>
+                <input type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" value="Redefinir Senha"></input>
               </div>
 
             <?php echo form_close(); ?>
@@ -104,7 +113,5 @@
 
 
 <?php echo $this->section('scripts'); ?>
-  
-  <!-- aqui enviamos para o template principal os sctipts -->
 
 <?php echo $this->endSection(); ?>
