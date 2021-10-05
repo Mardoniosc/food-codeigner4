@@ -9,7 +9,6 @@ use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
-use CodeIgniter\Throttle\Throttler;
 
 class Filters extends BaseConfig
 {
@@ -26,7 +25,7 @@ class Filters extends BaseConfig
         'login'     => LoginFilter::class, // filtro de login
         'admin'     => AdminFilter::class, // filtro de perfil Administrador
         'visitante' => VisitanteFilter::class, // filtro de visitante
-        'throttle'  => Throttler::class, // filtro que ajuda a prenivir ataques de força bruta
+        // 'throttle'  => Throttler::class, // filtro que ajuda a prenivir ataques de força bruta
     ];
 
     /**
@@ -56,7 +55,7 @@ class Filters extends BaseConfig
      * @var array
      */
     public $methods = [
-        'post' => ['throttle']
+        // 'post' => ['throttle']
     ];
 
     /**
