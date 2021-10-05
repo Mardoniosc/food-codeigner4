@@ -22,17 +22,6 @@
         <div class="col-lg-4 mx-auto">
           <div class="auth-form-light text-left py-5 px-4 px-sm-5">
 
-
-            <?php if(session()->has('errors_model')): ?>
-
-              <ul>
-                <?php foreach(session('errors_model') as $error): ?>
-                  <li class="text-danger"> <?php echo $error; ?> </li>
-                <?php endforeach; ?>
-              </ul>
-
-            <?php endif; ?>
-
             <?php if(session()->has('sucesso')):?>
 
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -69,19 +58,31 @@
             <!-- captura os erros de CSRF - Ação não permitida -->
             <?php if(session()->has('error')):?>
 
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <strong>Error!</strong> <?php echo session('error');?>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> <?php echo session('error');?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
 
             <?php endif;?>
+            
+            
             <div class="brand-logo">
               <img src="<?php  echo site_url("admin/")?>images/logo.svg" alt="logo">
             </div>
             <h4>Recuperando a senha!</h4>
             <h6 class="font-weight-light mb-3"><?php echo $titulo; ?></h6>
+
+            <?php if(session()->has('errors_model')): ?>
+
+              <ul>
+                <?php foreach(session('errors_model') as $error): ?>
+                  <li class="text-danger"> <?php echo $error; ?> </li>
+                <?php endforeach; ?>
+              </ul>
+
+            <?php endif; ?>
 
             <?php echo form_open("password/processareset/$token"); ?>
 

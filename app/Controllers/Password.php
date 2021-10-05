@@ -63,13 +63,49 @@ class Password extends BaseController {
         $usuario = $this->usuarioModel->buscaUsuarioParaResetarSenha($token);
 
         if($usuario) {
-            
+
             $data = [
                 'titulo' => 'Redefina a sua senha',
                 'token' => $token,
             ];
     
             return view('Password/reset', $data);
+        }
+        
+        return redirect()->to(site_url('password/esqueci'))->with('atencao', "Link inválido ou expirado!");
+    }
+
+    public function processaReset($token = null) {
+        if($token === null) {
+            return redirect()->to(site_url('password/esqueci'))->with('atencao', "Link inválido ou expirado!");
+        }
+
+        $usuario = $this->usuarioModel->buscaUsuarioParaResetarSenha($token);
+
+        if($usuario) {
+
+            $usuario->fill($this->request->getPost());
+
+            if($this->usuarioModel->save($usuario)) {
+
+                /**
+                 * Setando as colunas 'reset_has' e 'reset_expira_em' como null
+                 * ao invocar o métpdp abaixo que foi definido na Entidade Usuario
+                 * 
+                 * Invalidamos o link antigo que foi enviado para o e-mail do usuário
+                 */
+                $usuario->completaPasswordReset();
+
+                /* Atualiza novamente o usuário com os novos valores definidos acima */
+                $this->usuarioModel->save($usuario);
+
+                return redirect()->to(site_url('login'))->with("sucesso", "Nova senha cadastrada com sucesso!");
+            }
+
+            return redirect()->to(site_url("password/reset/$token"))
+                            ->with("errors_model", $this->usuarioModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
         }
         
         return redirect()->to(site_url('password/esqueci'))->with('atencao', "Link inválido ou expirado!");
