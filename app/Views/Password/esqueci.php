@@ -69,27 +69,22 @@
             <div class="brand-logo">
               <img src="<?php  echo site_url("admin/")?>images/logo.svg" alt="logo">
             </div>
-            <h4>Olá, seja bem vindo(a) </h4>
-            <h6 class="font-weight-light mb-3">Favor realize o login.</h6>
-            <?php echo form_open('login/criar'); ?>
+            <h4>Recuperando a senha!</h4>
+            <h6 class="font-weight-light mb-3"><?php echo $titulo; ?></h6>
+
+            <?php echo form_open('password/processaesqueci'); ?>
 
               <div class="form-group">
                 <input type="email" value="<?php echo  old('email'); ?>" class="form-control form-control-lg" name="email" placeholder="Digite o seu E-mail">
               </div>
-              <div class="form-group">
-                <input type="password" name="password" class="form-control form-control-lg" placeholder="Digite a sua senha">
-              </div>
+
 
               <div class="mt-3 text-center">
                 <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Entrar</button>
               </div>
 
               <div class="my-2 mt-3 d-flex justify-content-between align-items-center">
-                  <a href="<?php echo site_url('password/esqueci'); ?>" class="auth-link text-black">Esqueci minha senha</a>
-              </div>
-
-              <div class="text-center mt-4 font-weight-light">
-                Ainda não tem uma conta? <a href="<?php echo site_url('registrar')?>" class="text-primary">Criar conta</a>
+                  <a href="<?php echo site_url('login'); ?>" class="auth-link text-black">Voltar para Login!</a>
               </div>
 
             <?php echo form_close(); ?>
