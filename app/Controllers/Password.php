@@ -23,6 +23,24 @@ class Password extends BaseController {
     }
 
     public function processaEsqueci() {
-        # code...
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $usuario = $this->usuarioModel
+                            ->buscaUsuariorEmail($this->request->getPost('email'));
+
+            if(!$usuario || !$usuario->ativo) {
+                return redirect()
+                        ->to(site_url('password/esqueci'))
+                        ->with('atencao', "Não encontramos uma conta válida com esse e-mail.")
+                        ->withInput();
+            }
+
+            dd($usuario);
+        }
+
+        /* Não é POST */
+        return redirect()->back();
+
     }
 }

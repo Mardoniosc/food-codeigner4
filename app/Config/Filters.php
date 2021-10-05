@@ -5,6 +5,7 @@ namespace Config;
 use App\Filters\AdminFilter;
 use App\Filters\LoginFilter;
 use App\Filters\VisitanteFilter;
+use App\Filters\ThrottleFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -25,7 +26,7 @@ class Filters extends BaseConfig
         'login'     => LoginFilter::class, // filtro de login
         'admin'     => AdminFilter::class, // filtro de perfil Administrador
         'visitante' => VisitanteFilter::class, // filtro de visitante
-        // 'throttle'  => Throttler::class, // filtro que ajuda a prenivir ataques de força bruta
+        'throttle'  => ThrottleFilter::class, // filtro que ajuda a prenivir ataques de força bruta
     ];
 
     /**
@@ -55,7 +56,7 @@ class Filters extends BaseConfig
      * @var array
      */
     public $methods = [
-        // 'post' => ['throttle']
+        'post' => ['throttle']
     ];
 
     /**
