@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UsuarioModel;
+use Config\Services;
 
 class Password extends BaseController {
 
@@ -38,11 +39,37 @@ class Password extends BaseController {
 
             $usuario->iniciaPasswordReset();
 
-            dd($usuario);
+            /**
+             * @ATENÇÃO: Precisamos atualizar o modelo Usuario
+             */
+
+            $this->enviaEmailRedefinicaoSenha($usuario);
+
+            return redirect()
+                    ->to(site_url('login'))
+                    ->with('sucesso', "E-mail de redefinição de senha enviado para sua caixa de entrada!");
+
+            // dd($usuario);
         }
 
         /* Não é POST */
         return redirect()->back();
 
+    }
+
+
+    private function enviaEmailRedefinicaoSenha(object $usuario) {
+        $email = Services::email();
+
+        $email->setFrom('no-reply@fooddelivery.com.br', 'Food Deleviry');
+        $email->setTo($usuario->email);
+
+        $email->setSubject('Redefinição de senha');
+
+        $mensagem = view('Password/reset_email', ['token' => $usuario->reset_token]);
+
+        $email->setMessage($mensagem);
+
+        $email->send();
     }
 }
