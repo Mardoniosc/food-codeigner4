@@ -5,7 +5,7 @@
   </div>
   <div class="form-group col-md-4">
     <label for="preco">Preço</label>
-    <input type="number" class="form-control" id="preco" name="preco" value="<?php echo old('preco', esc($extra->preco)); ?>">
+    <input type="text" class="money form-control" id="preco" name="preco" value="<?php echo old('preco', esc($extra->preco)); ?>">
   </div>
 </div>
 <div class="form-row">

@@ -63,11 +63,11 @@ class Extras extends BaseController {
         if ($extra->deletado_em) {
             return redirect()
                     ->back()
-                    ->with("info", "A extra $extra->nome encontra-se excluído. Portando não é possível edita-la!");
+                    ->with("info", "O extra $extra->nome encontra-se excluído. Portando não é possível edita-lo!");
         }
 
         $data = [
-            'titulo'  => "Editando a extra $extra->nome",
+            'titulo'  => "Editando o extra $extra->nome",
             'extra' => $extra,
         ];
 
@@ -83,7 +83,7 @@ class Extras extends BaseController {
             if ($extra->deletado_em) {
                 return redirect()
                         ->back()
-                        ->with("info", "A extra $extra->nome encontra-se excluída. Portando não é possível edita-la!");
+                        ->with("info", "O extra $extra->nome encontra-se excluído. Portando não é possível edita-lo!");
             }
 
             $extra->fill($this->request->getPost());
@@ -94,7 +94,7 @@ class Extras extends BaseController {
 
             if($this->extraModel->save($extra)) {
                 return redirect()->to(site_url("admin/extras/show/$extra->id"))
-                                 ->with('sucesso', "Extra $extra->nome, atualizada com sucesso!");
+                                 ->with('sucesso', "Extra $extra->nome, atualizado com sucesso!");
 
             }
 

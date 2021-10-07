@@ -27,7 +27,7 @@
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Preço:</span>
-            <?php echo esc($extra->preco); ?>
+            R$&nbsp;<?php echo esc(number_format($extra->preco, 2)); ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Descrição:</span>
