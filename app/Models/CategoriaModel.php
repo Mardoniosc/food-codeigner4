@@ -45,6 +45,14 @@ class CategoriaModel extends Model
         return $data;
     }
 
+    public function desafazerExclusao(int $id) {
+
+        return $this->protect(false)
+                        ->where('id', $id)
+                        ->set('deletado_em', null)
+                        ->update();
+    }
+
     /**
      * @uso Controller categoria no método procurar com o autocomplete
      * @param string $term
