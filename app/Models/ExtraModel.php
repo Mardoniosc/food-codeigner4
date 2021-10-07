@@ -4,13 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CategoriaModel extends Model
+class ExtraModel extends Model
 {
 
-    protected $table                = 'categorias';
-    protected $returnType           = 'App\Entities\Categoria';
-    protected $useSoftDeletes       = true;
-    protected $allowedFields        = ['nome', 'ativo', 'slug'];
+    protected $table                = 'extras';
+    protected $primaryKey           = 'id';
+    protected $useAutoIncrement     = true;
+    protected $insertID             = 0;
+    protected $returnType           = 'App\Entities\Extra';
+    protected $useSoftDeletes       = false;
+    protected $allowedFields        = ['nome', 'slug', 'preco', 'descricao', 'ativo'];
 
     // Dates
     protected $useTimestamps        = true;
@@ -21,13 +24,13 @@ class CategoriaModel extends Model
 
     // validações
     protected $validationRules = [
-        'nome' => 'required|min_length[3]|max_length[120]|is_unique[categorias.nome]',
+        'nome' => 'required|min_length[3]|max_length[120]|is_unique[extras.nome]',
     ];
 
     protected $validationMessages = [
         'nome' => [
             'required' => 'Campo nome ainda não foi preenchido!',
-            'is_unique' => 'Desculpe. Essa categoria já existe na base!',
+            'is_unique' => 'Desculpe. Esse extra já existe na base!',
         ],
     ];
 
@@ -53,9 +56,9 @@ class CategoriaModel extends Model
     }
 
     /**
-     * @uso Controller categoria no método procurar com o autocomplete
+     * @uso Controller extra no método procurar com o autocomplete
      * @param string $term
-     * @return array categorias
+     * @return array extras
      */
     public function procurar($term) {
         if($term === null) {
@@ -68,5 +71,4 @@ class CategoriaModel extends Model
                         ->get()
                         ->getResult();
     }
-
 }
