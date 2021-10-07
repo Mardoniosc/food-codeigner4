@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Categoria;
 use App\Models\CategoriaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -46,6 +47,42 @@ class Categorias extends BaseController
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function criar() {
+
+        $categoria = new Categoria();
+
+        $data = [
+            'titulo'  => "Criando nova categoria",
+            'categoria' => $categoria,
+        ];
+
+        return view('Admin/Categorias/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $categoria = new Categoria($this->request->getPost());
+
+            if($this->categoriaModel->protect(false)->save($categoria)) {
+                return redirect()->to(site_url("admin/categorias/show/" . $this->categoriaModel->getInsertID()))
+                                 ->with('sucesso', "Categoria $categoria->nome, cadastrada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->categoriaModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
     public function show($id = null) {
