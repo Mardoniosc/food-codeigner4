@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\CategoriaModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Categorias extends BaseController
 {
@@ -45,5 +46,31 @@ class Categorias extends BaseController
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function show($id = null) {
+
+        $categoria = $this->buscarCategoriaOu404($id);
+
+        $data = [
+            'titulo'  => "Detalhando o usuário $categoria->nome",
+            'categoria' => $categoria,
+        ];
+
+        return view('Admin/Categorias/show', $data);
+    }
+
+    // METHODS PRIVATE
+
+    /**
+     * @param int $id
+     * @return objeto categoria
+     */
+    private function buscarCategoriaOu404(int $id = null) {
+        if(!$id || !$categoria = $this->categoriaModel->withDeleted(true)->where('id', $id)->first()) {
+            throw PageNotFoundException::forPageNotFound("Não encontramos o usuário $id");
+        }
+
+        return $categoria;
     }
 }
