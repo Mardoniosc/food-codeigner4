@@ -48,6 +48,18 @@ class Categorias extends BaseController
 
     }
 
+    public function show($id = null) {
+
+        $categoria = $this->buscarCategoriaOu404($id);
+
+        $data = [
+            'titulo'  => "Detalhando a categoria $categoria->nome",
+            'categoria' => $categoria,
+        ];
+
+        return view('Admin/Categorias/show', $data);
+    }
+
     public function editar($id = null) {
 
         $categoria = $this->buscarCategoriaOu404($id);
@@ -66,16 +78,40 @@ class Categorias extends BaseController
         return view('Admin/Categorias/editar', $data);
     }
 
-    public function show($id = null) {
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $categoria = $this->buscarCategoriaOu404($id);
 
-        $categoria = $this->buscarCategoriaOu404($id);
+            if ($categoria->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "A categoria $categoria->nome encontra-se excluída. Portando não é possível edita-la!");
+            }
 
-        $data = [
-            'titulo'  => "Detalhando o usuário $categoria->nome",
-            'categoria' => $categoria,
-        ];
+            $categoria->fill($this->request->getPost());
 
-        return view('Admin/Categorias/show', $data);
+            if(!$categoria->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->categoriaModel->save($categoria)) {
+                return redirect()->to(site_url("admin/categorias/show/$categoria->id"))
+                                 ->with('sucesso', "Categoria $categoria->nome, atualizada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->categoriaModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
     // METHODS PRIVATE
@@ -86,7 +122,7 @@ class Categorias extends BaseController
      */
     private function buscarCategoriaOu404(int $id = null) {
         if(!$id || !$categoria = $this->categoriaModel->withDeleted(true)->where('id', $id)->first()) {
-            throw PageNotFoundException::forPageNotFound("Não encontramos o usuário $id");
+            throw PageNotFoundException::forPageNotFound("Não encontramos o categoria $id");
         }
 
         return $categoria;
