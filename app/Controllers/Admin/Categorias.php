@@ -48,6 +48,24 @@ class Categorias extends BaseController
 
     }
 
+    public function editar($id = null) {
+
+        $categoria = $this->buscarCategoriaOu404($id);
+
+        if ($categoria->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A categoria $categoria->nome encontra-se excluído. Portando não é possível edita-la!");
+        }
+
+        $data = [
+            'titulo'  => "Editando a categoria $categoria->nome",
+            'categoria' => $categoria,
+        ];
+
+        return view('Admin/Categorias/editar', $data);
+    }
+
     public function show($id = null) {
 
         $categoria = $this->buscarCategoriaOu404($id);
