@@ -56,6 +56,60 @@ class Extras extends BaseController {
         return view('Admin/Extras/show', $data);
     }
 
+    public function editar($id = null) {
+
+        $extra = $this->buscarExtraOu404($id);
+
+        if ($extra->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A extra $extra->nome encontra-se excluído. Portando não é possível edita-la!");
+        }
+
+        $data = [
+            'titulo'  => "Editando a extra $extra->nome",
+            'extra' => $extra,
+        ];
+
+        return view('Admin/Extras/editar', $data);
+    }
+
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $extra = $this->buscarExtraOu404($id);
+
+            if ($extra->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "A extra $extra->nome encontra-se excluída. Portando não é possível edita-la!");
+            }
+
+            $extra->fill($this->request->getPost());
+
+            if(!$extra->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->extraModel->save($extra)) {
+                return redirect()->to(site_url("admin/extras/show/$extra->id"))
+                                 ->with('sucesso', "Extra $extra->nome, atualizada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->extraModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
 
     // METHODS PRIVATE
 
