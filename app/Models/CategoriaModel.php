@@ -45,4 +45,21 @@ class CategoriaModel extends Model
         return $data;
     }
 
+    /**
+     * @uso Controller categoria no método procurar com o autocomplete
+     * @param string $term
+     * @return array categorias
+     */
+    public function procurar($term) {
+        if($term === null) {
+            return [];
+        }
+
+        return $this->select('id, nome')
+                        ->like('nome', $term)
+                        ->withDeleted(true)
+                        ->get()
+                        ->getResult();
+    }
+
 }
