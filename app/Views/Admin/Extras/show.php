@@ -23,48 +23,56 @@
 
           <p class="card-text">
             <span class="font-weight-bold">Nome:</span>
-            <?php echo esc($categoria->nome); ?>
+            <?php echo esc($extra->nome); ?>
+          </p>
+          <p class="card-text">
+            <span class="font-weight-bold">Preço:</span>
+            <?php echo esc($extra->preco); ?>
+          </p>
+          <p class="card-text">
+            <span class="font-weight-bold">Descrição:</span>
+            <?php echo esc($extra->descricao); ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Slug:</span>
-            <?php echo esc($categoria->slug); ?>
+            <?php echo esc($extra->slug); ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Ativo:</span>
-            <?php echo $categoria->ativo ? 'Sim' : 'Não'; ?>
+            <?php echo $extra->ativo ? 'Sim' : 'Não'; ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Criado:</span>
-            <?php echo $categoria->criado_em->humanize();?>
+            <?php echo $extra->criado_em->humanize();?>
           </p>
 
-          <?php if($categoria->deletado_em): ?>
+          <?php if($extra->deletado_em): ?>
             <p class="card-text">
               <span class="font-weight-bold text-danger">Excluído:</span>
-              <?php echo $categoria->deletado_em->humanize(); ?>
+              <?php echo $extra->deletado_em->humanize(); ?>
             </p>
           <?php else: ?>
             <p class="card-text">
               <span class="font-weight-bold">Atualizado:</span>
-              <?php echo $categoria->atualizado_em->humanize(); ?>
+              <?php echo $extra->atualizado_em->humanize(); ?>
             </p>
           <?php endif; ?>
           
         </div>
         <div class="card-footer" style="display: flex; justify-content: space-between;">
-          <?php if($categoria->deletado_em): ?>
+          <?php if($extra->deletado_em): ?>
             
-            <a href="<?php echo site_url("admin/categorias/desfazerexclusao/$categoria->id");?>" 
+            <a href="<?php echo site_url("admin/extras/desfazerexclusao/$extra->id");?>" 
                           class="btn btn-success btn-sm btn-icon-text"
                         > <i class="mdi mdi-undo btn-icon-prepend"></i> Desfazer </a>
           <?php else: ?>
             <a 
-              href="<?php echo site_url("admin/categorias/editar/$categoria->id")?>" 
+              href="<?php echo site_url("admin/extras/editar/$extra->id")?>" 
               class="btn btn-dark btn-sm btn-icon-text"
             > <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
   
             <a 
-              href="<?php echo site_url("admin/categorias/excluir/$categoria->id")?>" 
+              href="<?php echo site_url("admin/extras/excluir/$extra->id")?>" 
               class="btn btn-danger btn-sm btn-icon-text"
             > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
             
@@ -72,7 +80,7 @@
 
 
           <a 
-            href="<?php echo site_url("admin/categorias")?>" 
+            href="<?php echo site_url("admin/extras")?>" 
             class="btn btn-light text-dark btn-sm btn-icon-text"
           > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 
