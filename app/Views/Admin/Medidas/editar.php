@@ -14,7 +14,7 @@
 
 <?php echo $this->section('conteudo'); ?>
   <div class="row">
-    <div class="col-lg-6 grid-margin stretch-card">
+    <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-header bg-primary pb-0 pt-4">
           <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
@@ -31,22 +31,14 @@
 
           <?php endif; ?>
 
-          <?php echo form_open("Admin/Extras/excluir/$extra->id"); ?>
+          <?php echo form_open("Admin/Medidas/atualizar/$medida->id"); ?>
+          
 
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Atenção!</strong> Tem certeza da exclusão do extra <strong><?php echo esc($extra->nome); ?>?</strong>
-            </div>
-            
+            <?php echo $this->include('Admin/Medidas/form'); ?>
 
-            <button type="submit" class="btn btn-danger btn-sm mr-2 btn-icon-text">
-              <i class="mdi mdi-trash-can btn-icon-prepend"></i>
-              Excluir
-            </button>
-
-            <a href="<?php echo site_url("admin/extras/show/$extra->id")?>" 
+            <a href="<?php echo site_url("admin/medidas/show/$medida->id")?>" 
               class="btn btn-light text-dark btn-sm btn-icon-text"
             > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
-
           <?php echo form_close(); ?>
         </div>
 
