@@ -30,4 +30,29 @@ class MedidaModel extends Model
             'is_unique' => 'Desculpe. Essa medida já existe na base!',
         ],
     ];
+
+    public function desafazerExclusao(int $id) {
+
+        return $this->protect(false)
+                        ->where('id', $id)
+                        ->set('deletado_em', null)
+                        ->update();
+    }
+
+    /**
+     * @uso Controller medida no método procurar com o autocomplete
+     * @param string $term
+     * @return array medidas
+     */
+    public function procurar($term) {
+        if($term === null) {
+            return [];
+        }
+
+        return $this->select('id, nome')
+                        ->like('nome', $term)
+                        ->withDeleted(true)
+                        ->get()
+                        ->getResult();
+    }
 }
