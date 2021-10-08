@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Medida;
 use App\Models\MedidaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -54,6 +55,96 @@ class Medidas extends BaseController {
         ];
 
         return view('Admin/Medidas/show', $data);
+    }
+
+    public function editar($id = null) {
+
+        $medida = $this->buscarMedidaOu404($id);
+
+        if ($medida->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A medida $medida->nome encontra-se excluída. Portando não é possível edita-la!");
+        }
+
+        $data = [
+            'titulo'  => "Editando a medida $medida->nome",
+            'medida' => $medida,
+        ];
+
+        return view('Admin/Medidas/editar', $data);
+    }
+
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $medida = $this->buscarMedidaOu404($id);
+
+            if ($medida->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "A medida $medida->nome encontra-se excluída. Portando não é possível edita-la!");
+            }
+
+            $medida->fill($this->request->getPost());
+
+            if(!$medida->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->medidaModel->save($medida)) {
+                return redirect()->to(site_url("admin/medidas/show/$medida->id"))
+                                 ->with('sucesso', "Medida $medida->nome, atualizado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->medidaModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
+    public function criar() {
+
+        $medida = new Medida();
+
+        $data = [
+            'titulo'  => "Criando nova medida",
+            'medida' => $medida,
+        ];
+
+        return view('Admin/Medidas/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $medida = new Medida($this->request->getPost());
+
+            if($this->medidaModel->protect(false)->save($medida)) {
+                return redirect()->to(site_url("admin/medidas/show/" . $this->medidaModel->getInsertID()))
+                                 ->with('sucesso', "Medida $medida->nome, cadastrada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->medidaModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
     // METHODS PRIVATE
