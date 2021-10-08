@@ -6,37 +6,80 @@ use CodeIgniter\Model;
 
 class ProdutoModel extends Model
 {
-    protected $DBGroup              = 'default';
     protected $table                = 'produtos';
-    protected $primaryKey           = 'id';
-    protected $useAutoIncrement     = true;
-    protected $insertID             = 0;
-    protected $returnType           = 'array';
-    protected $useSoftDeletes       = false;
-    protected $protectFields        = true;
-    protected $allowedFields        = [];
+    protected $returnType           = 'App\Entities\Produto';
+    protected $useSoftDeletes       = true;
+    protected $allowedFields        = [
+        'categoria_id',
+        'nome',
+        'slug',
+        'ingredientes',
+        'ativo',
+        'imagem',
+    ];
 
     // Dates
-    protected $useTimestamps        = false;
+    protected $useTimestamps        = true;
     protected $dateFormat           = 'datetime';
-    protected $createdField         = 'created_at';
-    protected $updatedField         = 'updated_at';
-    protected $deletedField         = 'deleted_at';
+    protected $createdField         = 'criado_em';
+    protected $updatedField         = 'atualizado_em';
+    protected $deletedField         = 'deletado_em';
 
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // validações
+    protected $validationRules = [
+        'nome' => 'required|min_length[3]|max_length[120]|is_unique[produtos.nome]',
+        'ingredientes' => 'required|min_length[10]|max_length[1000]',
+        'categoria_id' => 'required|integer',
+    ];
 
-    // Callbacks
-    protected $allowCallbacks       = true;
-    protected $beforeInsert         = [];
-    protected $afterInsert          = [];
-    protected $beforeUpdate         = [];
-    protected $afterUpdate          = [];
-    protected $beforeFind           = [];
-    protected $afterFind            = [];
-    protected $beforeDelete         = [];
-    protected $afterDelete          = [];
+    protected $validationMessages = [
+        'nome' => [
+            'required' => 'Campo nome ainda não foi preenchido!',
+            'is_unique' => 'Desculpe. Esse produto já existe na base!',
+        ],
+        'categoria_id' => [
+            'required' => 'Campo categoria ainda não foi preenchido!',
+        ],
+        'ingredientes' => [
+            'required' => 'Campo ingredientes ainda não foi preenchido!',
+        ],
+    ];
+
+
+    // Eventos callback
+    protected $beforeInsert = ['criaSlug'];
+    protected $beforeUpdate = ['criaSlug'];
+
+    protected function criaSlug(array $data) {
+        if(isset($data['data']['nome'])) {
+
+            $data['data']['slug'] = mb_url_title($data['data']['nome'], '-', TRUE);
+        }
+        return $data;
+    }
+
+    public function desafazerExclusao(int $id) {
+
+        return $this->protect(false)
+                        ->where('id', $id)
+                        ->set('deletado_em', null)
+                        ->update();
+    }
+
+    /**
+     * @uso Controller produto no método procurar com o autocomplete
+     * @param string $term
+     * @return array produtos
+     */
+    public function procurar($term) {
+        if($term === null) {
+            return [];
+        }
+
+        return $this->select('id, nome')
+                        ->like('nome', $term)
+                        ->withDeleted(true)
+                        ->get()
+                        ->getResult();
+    }
 }

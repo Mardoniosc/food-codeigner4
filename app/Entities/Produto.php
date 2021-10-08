@@ -6,11 +6,9 @@ use CodeIgniter\Entity\Entity;
 
 class Produto extends Entity
 {
-    protected $datamap = [];
     protected $dates   = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+        'criado_em',
+        'atualizado_em',
+        'deletado_em',
     ];
-    protected $casts   = [];
 }
