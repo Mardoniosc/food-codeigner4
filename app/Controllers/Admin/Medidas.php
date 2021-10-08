@@ -147,6 +147,50 @@ class Medidas extends BaseController {
         }
     }
 
+    public function excluir($id = null) {
+
+        $medida = $this->buscarMedidaOu404($id);
+
+        if ($medida->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A medida $medida->nome já encontra-se excluída");
+        }
+
+        if($this->request->getMethod() === 'post') {
+
+            $this->medidaModel->delete($id);
+            
+            return redirect()->to(site_url('admin/medidas'))
+                             ->with('sucesso', "Medida $medida->nome excluída com sucesso!");
+        }
+
+        $data = [
+            'titulo'  => "Excluindo o medida $medida->nome",
+            'medida' => $medida,
+        ];
+
+        return view('Admin/Medidas/excluir', $data);
+    }
+
+    public function desfazerexclusao($id = null) {
+
+        $medida = $this->buscarMedidaOu404($id);
+
+        if(!$medida->deletado_em) {
+            return redirect()->back()->with('info', 'Apenas medidas excluídas podem ser recuperadas');
+        }
+
+        if($this->medidaModel->desafazerExclusao($id)) {
+            return redirect()->back()->with('sucesso', 'Exclusão desfeita com sucesso!');
+        }
+
+        return redirect()->back()
+                            ->with("errors_model", $this->medidaModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
+    }
+
     // METHODS PRIVATE
 
     /**
