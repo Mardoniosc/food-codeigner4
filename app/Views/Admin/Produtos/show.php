@@ -14,13 +14,24 @@
 
 <?php echo $this->section('conteudo'); ?>
   <div class="row">
-    <div class="col-lg-6 grid-margin stretch-card">
+    <div class="col-lg-4 grid-margin stretch-card">
       <div class="card">
         <div class="card-header bg-primary pb-0 pt-4">
           <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
         </div>
         <div class="card-body">
+          <?php if($produto->image) :?>
+            <img class="card-img-top" src="..." alt="Card image cap">
+          <?php else:?>
+              <img class="card-img-top ml-4" style="max-width: 80%;" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
+          <?php endif;?>
 
+          <a 
+            href="<?php echo site_url("admin/produtos/editarimagem/$produto->id")?>" 
+            class="btn btn-outline-primary btn-sm btn-icon-text mb-3"
+          > <i class="mdi mdi-image btn-icon-prepend"></i> Editar imagem</a>
+
+        
           <p class="card-text">
             <span class="font-weight-bold">Nome:</span>
             <?php echo esc($produto->nome); ?>
