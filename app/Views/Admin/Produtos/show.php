@@ -20,17 +20,21 @@
           <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
         </div>
         <div class="card-body">
-          <?php if($produto->image) :?>
-            <img class="card-img-top" src="..." alt="Card image cap">
-          <?php else:?>
-              <img class="card-img-top ml-4" style="max-width: 80%;" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
-          <?php endif;?>
+
+          <div class="text-center">
+            <?php if($produto->image) :?>
+              <img class="card-img-top w-75" src="..." alt="Card image cap">
+            <?php else:?>
+                <img class="card-img-top w-75" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
+            <?php endif;?>
+          </div>
 
           <a 
             href="<?php echo site_url("admin/produtos/editarimagem/$produto->id")?>" 
-            class="btn btn-outline-primary btn-sm btn-icon-text mb-3"
-          > <i class="mdi mdi-image btn-icon-prepend"></i> Editar imagem</a>
+            class="btn btn-outline-primary btn-sm btn-icon-text mb-2"
+          > <i class="mdi mdi-image btn-icon-prepend"></i> Editar</a>
 
+          <hr>
         
           <p class="card-text">
             <span class="font-weight-bold">Nome:</span>

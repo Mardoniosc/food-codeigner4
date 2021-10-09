@@ -151,6 +151,17 @@ class Produtos extends BaseController {
         }
     }
 
+    public function editarImagem($id = null) {   
+        $produto = $this->buscarProdutoOu404($id);
+
+        $data = [
+            'titulo'  => "Editando a imagem do produto $produto->nome",
+            'produto' => $produto,
+        ];
+
+        return view('Admin/Produtos/editar_imagem', $data);
+    }
+
 
     // METHODS PRIVATE
 
