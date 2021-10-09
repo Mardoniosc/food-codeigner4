@@ -31,10 +31,10 @@
 
           <?php endif; ?>
 
-          <?php echo form_open("Admin/Extras/cadastrar"); ?>
+          <?php echo form_open("Admin/Produtos/cadastrar"); ?>
           
-          <?php echo $this->include('Admin/Extras/form'); ?>
-          <a href="<?php echo site_url("admin/extras")?>" 
+          <?php echo $this->include('Admin/Produtos/form'); ?>
+          <a href="<?php echo site_url("admin/produtos")?>" 
             class="btn btn-light text-dark btn-sm btn-icon-text"
           > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 

@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Produto;
 use App\Models\CategoriaModel;
 use App\Models\ProdutoModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -77,6 +78,79 @@ class Produtos extends BaseController {
         return view('Admin/Produtos/editar', $data);
     }
 
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $produto = $this->buscarProdutoOu404($id);
+
+            if ($produto->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "O produto $produto->nome encontra-se excluído. Portando não é possível edita-lo!");
+            }
+
+            $produto->fill($this->request->getPost());
+
+            if(!$produto->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->produtoModel->save($produto)) {
+                return redirect()->to(site_url("admin/produtos/show/$produto->id"))
+                                 ->with('sucesso', "Produto $produto->nome, atualizado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->produtoModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
+    public function criar() {
+
+        $produto = new Produto();
+
+        $data = [
+            'titulo'  => "Criando novo produto",
+            'produto' => $produto,
+            'categorias' => $this->categoriaModel->where('ativo', true)->findAll(),
+        ];
+
+        return view('Admin/Produtos/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $produto = new Produto($this->request->getPost());
+
+            if($this->produtoModel->protect(false)->save($produto)) {
+                return redirect()->to(site_url("admin/produtos/show/" . $this->produtoModel->getInsertID()))
+                                 ->with('sucesso', "Produto $produto->nome, cadastrado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->produtoModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
 
     // METHODS PRIVATE
 
@@ -87,6 +161,7 @@ class Produtos extends BaseController {
     private function buscarProdutoOu404(int $id = null) {
         if(!$id || !$produto = $this->produtoModel->select('produtos.*,categorias.nome AS categoria')
                                 ->join('categorias', 'categorias.id = produtos.categoria_id')
+                                ->where('produtos.id', $id)
                                 ->withDeleted(true)->first()) {
             throw PageNotFoundException::forPageNotFound("Não encontramos o produto $id");
         }
