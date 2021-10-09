@@ -3,15 +3,18 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\CategoriaModel;
 use App\Models\ProdutoModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Produtos extends BaseController {
 
     private $produtoModel;
+    private $categoriaModel;
 
     public function __construct() {
         $this->produtoModel = new ProdutoModel();
+        $this->categoriaModel = new CategoriaModel();
     }
 
     public function index() {
@@ -59,6 +62,19 @@ class Produtos extends BaseController {
         ];
 
         return view('Admin/Produtos/show', $data);
+    }
+
+    public function editar($id = null) {
+
+        $produto = $this->buscarProdutoOu404($id);
+
+        $data = [
+            'titulo'  => "Editando o produto $produto->nome",
+            'produto' => $produto,
+            'categorias' => $this->categoriaModel->where('ativo', true)->findAll(),
+        ];
+
+        return view('Admin/Produtos/editar', $data);
     }
 
 
