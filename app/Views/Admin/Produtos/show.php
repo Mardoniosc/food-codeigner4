@@ -22,16 +22,17 @@
         <div class="card-body">
 
           <div class="text-center">
-            <?php if($produto->image) :?>
-              <img class="card-img-top w-75" src="..." alt="Card image cap">
+            <?php if($produto->imagem) :?>
+              <img class="card-img-top w-75" src="<?php echo site_url("admin/produtos/imagem/$produto->imagem")?>" alt="<?php echo esc($produto->nome); ?>">
             <?php else:?>
                 <img class="card-img-top w-75" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
             <?php endif;?>
           </div>
+          <hr>
 
           <a 
             href="<?php echo site_url("admin/produtos/editarimagem/$produto->id")?>" 
-            class="btn btn-outline-primary btn-sm btn-icon-text mb-2"
+            class="btn btn-outline-primary btn-sm btn-icon-text mb-2 mt-2"
           > <i class="mdi mdi-image btn-icon-prepend"></i> Editar</a>
 
           <hr>

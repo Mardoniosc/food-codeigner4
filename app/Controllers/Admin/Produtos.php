@@ -232,6 +232,23 @@ class Produtos extends BaseController {
                 ->with("sucesso", "Imagem alterada com sucesso!");
     }
 
+    public function imagem(string $imagem =  null) {
+        if($imagem) {
+
+            $caminhoImagem = WRITEPATH . 'uploads/produtos/' . $imagem;
+
+            $infoImagem = new \finfo(FILEINFO_MIME);
+
+            $tipoImagem = $infoImagem->file($caminhoImagem);
+
+            header("Content-Type: $tipoImagem");
+            header("Content-Length: " . filesize($caminhoImagem));
+
+            readfile($caminhoImagem);
+            exit;
+        }
+    }
+
 
     // METHODS PRIVATE
 
