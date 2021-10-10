@@ -167,6 +167,8 @@ class Produtos extends BaseController {
 
         $imagem = $this->request->getFile('foto_produto');
 
+
+
         if(!$imagem->isValid()) {
             $codigoErro = $imagem->getError();
 
@@ -199,7 +201,35 @@ class Produtos extends BaseController {
                     ->with("atencao", "A imagem não poder ser menor do que 400 x 400 pixels.");
         }
         
-        dd($imagem);
+        // ------------------------ A parti desse ponto fazemos o store da imagem ------------------------ //
+        /* Fazendo o store da imagem e recuperando o caminho da mesma */
+        $imagemCaminho = $imagem->store('produtos');
+        $imagemCaminho = WRITEPATH . 'uploads/' . $imagemCaminho;
+        
+        /* Fazendo o resize da mesma imagem */
+        service('image')->withFile($imagemCaminho)
+                        ->fit(400, 400, 'center')
+                        ->save($imagemCaminho);
+
+        /* Recuperando a imagem antiga para excluí-la */
+        $imagemAntiga = $produto->imagem;
+    
+        /* Atribuindo a nova imagem */
+        $produto->imagem = $imagem->getName();
+
+        /* Atualizando a imagem do produto */
+        $this->produtoModel->save($produto);
+
+        /* Definindo o caminho da imagem antiga */
+        $caminhoImagem = WRITEPATH . 'uploads/produtos/' . $imagemAntiga;
+
+        if(is_file($caminhoImagem)) {
+            unlink($caminhoImagem);
+        }
+
+        return redirect()
+                ->to(site_url("admin/produtos/show/$produto->id"))
+                ->with("sucesso", "Imagem alterada com sucesso!");
     }
 
 
