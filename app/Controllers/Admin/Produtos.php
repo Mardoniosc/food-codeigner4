@@ -162,6 +162,28 @@ class Produtos extends BaseController {
         return view('Admin/Produtos/editar_imagem', $data);
     }
 
+    public function upload($id = null) {
+        $produto = $this->buscarProdutoOu404($id);
+
+        $imagem = $this->request->getFile('foto_produto');
+
+        if(!$imagem->isValid()) {
+            $codigoErro = $imagem->getError();
+
+            if($codigoErro == UPLOAD_ERR_NO_FILE) {
+                return redirect()->back()->with("atencao", "Nenhum arquivo foi selecionado");
+            }
+        }
+        
+        $tamanhoImagem = $imagem->getSizeByUnit('mb');
+        
+        if($tamanhoImagem > 2) {
+            return redirect()->back()->with("atencao", "O arquivo selecionado é muito grand. Máximo permitido é: 2MB");
+        }
+
+
+    }
+
 
     // METHODS PRIVATE
 
