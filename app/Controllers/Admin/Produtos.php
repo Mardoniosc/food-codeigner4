@@ -181,7 +181,25 @@ class Produtos extends BaseController {
             return redirect()->back()->with("atencao", "O arquivo selecionado é muito grand. Máximo permitido é: 2MB");
         }
 
+        $tipoImagem = $imagem->getExtension();
+        
+        $tiposPermitidos = [ 'jpeg', 'jpg','png', 'webp' ];
 
+        if (!in_array($tipoImagem, $tiposPermitidos)) {
+            return redirect()
+                    ->back()
+                    ->with("atencao", "O arquivo não tem o formato permitido. Apenas ". implode(", ",$tiposPermitidos));
+        }
+
+        list($largura, $altura) = getimagesize($imagem->getPathname());
+
+        if($largura < "400" || $altura < "400" ) {
+            return redirect()
+                    ->back()
+                    ->with("atencao", "A imagem não poder ser menor do que 400 x 400 pixels.");
+        }
+        
+        dd($imagem);
     }
 
 
