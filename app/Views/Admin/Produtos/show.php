@@ -84,6 +84,11 @@
             > <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
   
             <a 
+              href="<?php echo site_url("admin/produtos/extras/$produto->id")?>" 
+              class="btn btn-outline-github btn-sm btn-icon-text"
+            > <i class="mdi mdi-sitemap btn-icon-prepend"></i> Extras</a>
+
+            <a 
               href="<?php echo site_url("admin/produtos/excluir/$produto->id")?>" 
               class="btn btn-danger btn-sm btn-icon-text"
             > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>

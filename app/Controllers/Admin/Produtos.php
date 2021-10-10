@@ -5,6 +5,8 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Entities\Produto;
 use App\Models\CategoriaModel;
+use App\Models\ExtraModel;
+use App\Models\ProdutoExtraModel;
 use App\Models\ProdutoModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -12,10 +14,14 @@ class Produtos extends BaseController {
 
     private $produtoModel;
     private $categoriaModel;
+    private $extraModel;
+    private $produtoExtraModel;
 
     public function __construct() {
         $this->produtoModel = new ProdutoModel();
         $this->categoriaModel = new CategoriaModel();
+        $this->extraModel = new ExtraModel();
+        $this->produtoExtraModel = new ProdutoExtraModel();
     }
 
     public function index() {
@@ -247,6 +253,21 @@ class Produtos extends BaseController {
             readfile($caminhoImagem);
             exit;
         }
+    }
+
+    public function extras($id = null) {
+
+        $produto = $this->buscarProdutoOu404($id);
+
+        $data = [
+            'titulo'  => "Gerenciar os extras do produto $produto->nome",
+            'produto' => $produto,
+            'extras'  => $this->extraModel->where('ativo', true)->findAll(),
+            'produtosExtras' => $this->produtoExtraModel->buscaExtrasDoProduto($produto->id),
+        ];
+
+        dd($data['produtosExtras']);
+        return view('Admin/Produtos/extras', $data);
     }
 
 
