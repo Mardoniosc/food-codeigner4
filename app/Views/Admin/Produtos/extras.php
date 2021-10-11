@@ -62,11 +62,39 @@
 
         <hr>
         <div class="form-row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <?php if(empty($produtosExtras)): ?>
             <p>Este produto não possui extras até o momento.</p>
             <?php else: ?>
+            <h4 class="card-title">Extras do produto</h4>
+            <p class="card-description">
+              <code>Aproveite para gerenciar os extras</code>
+            </p>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Extra</th>
+                    <th>Preço</th>
+                    <th>Remover</th>
+                  </tr>
+                </thead>
+                <tbody>
 
+                  <?php foreach($produtosExtras as $extraProduto): ?>
+
+                  <tr>
+                    <td><?php echo $extraProduto->extra;?></td>
+                    <td>R$&nbsp;<?php echo esc(number_format($extraProduto->preco, 2));?></td>
+                    <td><label class="badge badge-danger">&nbsp;X&nbsp;</label></td>
+                  </tr>
+
+                  <?php endforeach; ?>
+
+
+                </tbody>
+              </table>
+            </div>
             <?php endif; ?>
           </div>
         </div>
@@ -87,22 +115,22 @@
 
 
 <script>
-  $(document).ready(function () {
-    $('.js-example-basic-single').select2({
-      placeholder: 'Digite o nome do extra',
-      allowClear: false,
+$(document).ready(function() {
+  $('.js-example-basic-single').select2({
+    placeholder: 'Digite o nome do extra',
+    allowClear: false,
 
-      "language": {
-        "noResults": function() {
-          return "Extra não encontrado&nbsp;&nbsp;<a class='btn btn-primary btn-sm' href='<?php echo site_url('admin/extras/criar');?>'>Cadastrar</a>";
-        }
-      },
+    "language": {
+      "noResults": function() {
+        return "Extra não encontrado&nbsp;&nbsp;<a class='btn btn-primary btn-sm' href='<?php echo site_url('admin/extras/criar');?>'>Cadastrar</a>";
+      }
+    },
 
-      escapeMarkup: function(markup){
-        return markup;
-      },
-      
-    });
+    escapeMarkup: function(markup) {
+      return markup;
+    },
+
   });
+});
 </script>
 <?php echo $this->endSection(); ?>
