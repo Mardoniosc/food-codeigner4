@@ -9,6 +9,8 @@
 
 <?php echo $this->section('estilos'); ?>
 
+<link rel="stylesheet" href="<?php echo site_url('admin/vendors/select2/select2.min.css');?>">
+
 <?php echo $this->endSection(); ?>
 
 
@@ -36,7 +38,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label>Escolha o extra do produto (opcional)</label>
-            <select class="form-control" name="extra_id" id="extra_id">
+            <select class="form-control js-example-basic-single" name="extra_id" id="extra_id">
               <option>Escolha...</option>
 
               <?php foreach($extras as $extra): ?>
@@ -62,9 +64,9 @@
         <div class="form-row">
           <div class="col-md-12">
             <?php if(empty($produtosExtras)): ?>
-              <p>Este produto não possui extras até o momento.</p>
-              <?php else: ?>
-              
+            <p>Este produto não possui extras até o momento.</p>
+            <?php else: ?>
+
             <?php endif; ?>
           </div>
         </div>
@@ -81,7 +83,26 @@
 
 <?php echo $this->section('scripts'); ?>
 
-<script src="<?php echo site_url('admin/vendors/mask/app.js');?>"></script>
-<script src="<?php echo site_url('admin/vendors/mask/jquery.mask.min.js');?>"></script>
+<script src="<?php echo site_url('admin/vendors/select2/select2.min.js');?>"></script>
 
+
+<script>
+  $(document).ready(function () {
+    $('.js-example-basic-single').select2({
+      placeholder: 'Digite o nome do extra',
+      allowClear: false,
+
+      "language": {
+        "noResults": function() {
+          return "Extra não encontrado&nbsp;&nbsp;<a class='btn btn-primary btn-sm' href='<?php echo site_url('admin/extras/criar');?>'>Cadastrar</a>";
+        }
+      },
+
+      escapeMarkup: function(markup){
+        return markup;
+      },
+      
+    });
+  });
+</script>
 <?php echo $this->endSection(); ?>
