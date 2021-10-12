@@ -11,31 +11,29 @@
 
 <link rel="stylesheet" href="<?php echo site_url('admin/vendors/select2/select2.min.css');?>">
 <style>
+.select2-container .select2-selection--single {
+  display: block;
+  width: 100%;
+  height: 2.875rem;
+  padding: 0.875rem 1.375rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 2px;
+  transition: border-color 0.15s ease-in-out, bos-shadow 0.15s ease-in-out;
+}
 
-  .select2-container .select2-selection--single {
-    display: block;
-    width: 100%;
-    height: 2.875rem;
-    padding: 0.875rem 1.375rem;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 2px;
-    transition: border-color 0.15s ease-in-out, bos-shadow 0.15s ease-in-out;
-  }
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 18px;
+}
 
-  .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 18px;
-  }
-
-  .select2-container--default .select2-selection--single .select2-selection__arrow b {
-    top: 80%;
-  }
-  
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  top: 80%;
+}
 </style>
 
 <?php echo $this->endSection(); ?>
@@ -64,8 +62,7 @@
 
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label>Escolha a medida do produto <a href="javascript:void" data-toggle="popover"
-                title="Medida do produto"
+            <label>Escolha a medida do produto <a href="javascript:void" data-toggle="popover" title="Medida do produto"
                 data-content="Exemplo de uso para pizza: <br>Pizza grande,<br>Pizza Média,<br>Pizza Família.">Entenda</a></label>
             <select class="form-control js-example-basic-single" name="medida_id" id="medida_id">
               <option disabled>Escolha...</option>
@@ -105,7 +102,8 @@
         </button>
 
         <a href="<?php echo site_url("admin/produtos/show/$produto->id")?>"
-          class="btn btn-light text-dark btn-sm btn-icon-text mt-3 mb-2"> <i class="mdi mdi-arrow-left btn-icon-prepend"></i>
+          class="btn btn-light text-dark btn-sm btn-icon-text mt-3 mb-2"> <i
+            class="mdi mdi-arrow-left btn-icon-prepend"></i>
           Voltar</a>
         <?php echo form_close(); ?>
 
@@ -145,11 +143,13 @@
                     <td><?php echo $especificacao->medida;?></td>
                     <td>R$&nbsp;<?php echo esc(number_format($especificacao->preco, 2));?></td>
                     <td>
-                      <?php echo ($especificacao->customizavel ? "<label class='badge badge-primary'>Sim</label>" : "<label class='badge badge-danger'>Não</label>");?>
+                      <?php echo ($especificacao->customizavel ? "<label class='badge badge-primary'>Sim</label>" : "<label class='badge badge-warning'>Não</label>");?>
                     </td>
 
                     <td class="text-center">
-                      <button type="submit" class="btn badge badge-danger">&nbsp;X&nbsp;</button>
+
+                      <a href="<?php echo site_url("admin/produtos/excluirespecificacao/$especificacao->id/$especificacao->produto_id")?>"
+                        class="btn btn-danger btn-sm btn-icon-text"> &nbsp;X&nbsp;</a>
                     </td>
                   </tr>
 
