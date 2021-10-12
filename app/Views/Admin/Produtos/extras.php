@@ -87,7 +87,7 @@
                     <td><?php echo $extraProduto->extra;?></td>
                     <td>R$&nbsp;<?php echo esc(number_format($extraProduto->preco, 2));?></td>
                     <td class="text-center">
-                      <?php echo form_open("admin/produtos/excluirextra/$extraProduto->id"); ?>
+                      <?php echo form_open("admin/produtos/excluirextra/$extraProduto->id/$extraProduto->produto_id"); ?>
                         <button type="submit" class="btn badge badge-danger">&nbsp;X&nbsp;</button>
                       <?php echo form_close(); ?>
 
