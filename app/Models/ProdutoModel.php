@@ -63,6 +63,7 @@ class ProdutoModel extends Model
         return $this->protect(false)
                         ->where('id', $id)
                         ->set('deletado_em', null)
+                        ->set('imagem', null) /* Foi feito a exclusão do arquivo fisico */
                         ->update();
     }
 

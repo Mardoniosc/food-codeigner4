@@ -31,10 +31,10 @@
 
           <?php endif; ?>
 
-          <?php echo form_open("Admin/Usuarios/excluir/$usuario->id"); ?>
+          <?php echo form_open("Admin/Produtos/excluir/$produto->id"); ?>
 
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Atenção!</strong> Tem certeza da exclusão do usuário <strong><?php echo esc($usuario->nome); ?>?</strong>
+              <strong>Atenção!</strong> Tem certeza da exclusão do produto <strong><?php echo esc($produto->nome); ?>?</strong>
             </div>
             
 
@@ -43,7 +43,7 @@
               Excluir
             </button>
 
-            <a href="<?php echo site_url("admin/usuarios/show/$usuario->id")?>" 
+            <a href="<?php echo site_url("admin/produtos/show/$produto->id")?>" 
               class="btn btn-light text-dark btn-sm btn-icon-text"
             > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 

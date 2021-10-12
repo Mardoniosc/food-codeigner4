@@ -168,6 +168,10 @@ class Produtos extends BaseController {
     public function editarImagem($id = null) {   
         $produto = $this->buscarProdutoOu404($id);
 
+        if($produto->deletado_em) {
+            return redirect()->back()->with('info', 'Não é possível editar a aimagem de um produto excluído.');
+        }
+
         $data = [
             'titulo'  => "Editando a imagem do produto $produto->nome",
             'produto' => $produto,
@@ -417,6 +421,54 @@ class Produtos extends BaseController {
         return view('Admin/Produtos/excluir_especificacao', $data);
 
 
+    }
+
+    public function excluir($id = null) {
+        
+        $produto = $this->buscarProdutoOu404($id);
+
+        if ($this->request->getMethod() == 'post') {
+
+            /* Excluindo o produto da base de dados */
+            $this->produtoModel->delete($produto->id);
+
+            /* Excluindo a imagem do produto */
+            if ($produto->imagem) {
+                $caminhoImagem = WRITEPATH . 'uploads/produtos/' . $produto->imagem;
+
+                /* Excluindo o arquivo fisico */
+                if (is_file($caminhoImagem)) {
+                    unlink($caminhoImagem);
+                }
+            }
+
+            return redirect()->to(site_url('admin/produtos'))->with("sucesso", "Produto exluído");
+        }
+
+        $data = [
+            'titulo' => "Excluindo o produto $produto->nome",
+            'produto' => $produto,
+        ];
+
+        return view('Admin/Produtos/excluir', $data);
+    }
+
+    public function desfazerexclusao($id = null) {
+
+        $produto = $this->buscarProdutoOu404($id);
+
+        if(!$produto->deletado_em) {
+            return redirect()->back()->with('info', 'Apenas produtos excluídos podem ser recuperados');
+        }
+
+        if($this->produtoModel->desafazerExclusao($id)) {
+            return redirect()->back()->with('sucesso', 'Exclusão desfeita com sucesso!');
+        }
+
+        return redirect()->back()
+                            ->with("errors_model", $this->produtoModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
     }
 
 

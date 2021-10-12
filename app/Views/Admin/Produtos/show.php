@@ -13,107 +13,100 @@
 
 
 <?php echo $this->section('conteudo'); ?>
-  <div class="row">
-    <div class="col-lg-6 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-header bg-primary pb-0 pt-4">
-          <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
+<div class="row">
+  <div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-header bg-primary pb-0 pt-4">
+        <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
+      </div>
+      <div class="card-body">
+
+        <div class="text-center">
+          <?php if($produto->imagem && !$produto->deletado_em) :?>
+          <img class="card-img-top w-50" src="<?php echo site_url("admin/produtos/imagem/$produto->imagem")?>"
+            alt="<?php echo esc($produto->nome); ?>">
+          <?php else:?>
+          <img class="card-img-top w-50" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>"
+            alt="Card image cap">
+          <?php endif;?>
         </div>
-        <div class="card-body">
+        <hr>
+        <?php if(!$produto->deletado_em): ?>
+        <a href="<?php echo site_url("admin/produtos/editarimagem/$produto->id")?>"
+          class="btn btn-outline-primary btn-sm btn-icon-text mb-2 mt-2"> <i class="mdi mdi-image btn-icon-prepend"></i>
+          Editar Imagem</a>
 
-          <div class="text-center">
-            <?php if($produto->imagem) :?>
-              <img class="card-img-top w-50" src="<?php echo site_url("admin/produtos/imagem/$produto->imagem")?>" alt="<?php echo esc($produto->nome); ?>">
-            <?php else:?>
-                <img class="card-img-top w-50" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
-            <?php endif;?>
-          </div>
-          <hr>
+        <hr>
+        <?php endif; ?>
 
-          <a 
-            href="<?php echo site_url("admin/produtos/editarimagem/$produto->id")?>" 
-            class="btn btn-outline-primary btn-sm btn-icon-text mb-2 mt-2"
-          > <i class="mdi mdi-image btn-icon-prepend"></i> Editar</a>
+        <p class="card-text">
+          <span class="font-weight-bold">Nome:</span>
+          <?php echo esc($produto->nome); ?>
+        </p>
+        <p class="card-text">
+          <span class="font-weight-bold">Categoria:</span>
+          <?php echo $produto->categoria; ?>
+        </p>
+        <p class="card-text">
+          <span class="font-weight-bold">Slug:</span>
+          <?php echo esc($produto->slug); ?>
+        </p>
+        <p class="card-text">
+          <span class="font-weight-bold">Ativo:</span>
+          <?php echo $produto->ativo ? 'Sim' : 'Não'; ?>
+        </p>
+        <p class="card-text">
+          <span class="font-weight-bold">Criado:</span>
+          <?php echo $produto->criado_em->humanize();?>
+        </p>
 
-          <hr>
-        
-          <p class="card-text">
-            <span class="font-weight-bold">Nome:</span>
-            <?php echo esc($produto->nome); ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Categoria:</span>
-            <?php echo $produto->categoria; ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Slug:</span>
-            <?php echo esc($produto->slug); ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Ativo:</span>
-            <?php echo $produto->ativo ? 'Sim' : 'Não'; ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Criado:</span>
-            <?php echo $produto->criado_em->humanize();?>
-          </p>
+        <?php if($produto->deletado_em): ?>
+        <p class="card-text">
+          <span class="font-weight-bold text-danger">Excluído:</span>
+          <?php echo $produto->deletado_em->humanize(); ?>
+        </p>
+        <?php else: ?>
+        <p class="card-text">
+          <span class="font-weight-bold">Atualizado:</span>
+          <?php echo $produto->atualizado_em->humanize(); ?>
+        </p>
+        <?php endif; ?>
 
-          <?php if($produto->deletado_em): ?>
-            <p class="card-text">
-              <span class="font-weight-bold text-danger">Excluído:</span>
-              <?php echo $produto->deletado_em->humanize(); ?>
-            </p>
-          <?php else: ?>
-            <p class="card-text">
-              <span class="font-weight-bold">Atualizado:</span>
-              <?php echo $produto->atualizado_em->humanize(); ?>
-            </p>
-          <?php endif; ?>
-          
-        </div>
-        <div class="card-footer">
-          <?php if($produto->deletado_em): ?>
-            
-            <a href="<?php echo site_url("admin/produtos/desfazerexclusao/$produto->id");?>" 
-                          class="btn btn-success btn-sm btn-icon-text"
-                        > <i class="mdi mdi-undo btn-icon-prepend"></i> Desfazer </a>
-          <?php else: ?>
-            <a 
-              href="<?php echo site_url("admin/produtos/editar/$produto->id")?>" 
-              class="btn btn-dark btn-sm btn-icon-text"
-            > <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
-  
-            <a 
-              href="<?php echo site_url("admin/produtos/extras/$produto->id")?>" 
-              class="btn btn-outline-primary btn-sm btn-icon-text"
-            > <i class="mdi mdi-sitemap btn-icon-prepend"></i> Extras</a>
+      </div>
+      <div class="card-footer">
+        <?php if($produto->deletado_em): ?>
 
-            <a 
-              href="<?php echo site_url("admin/produtos/especificacoes/$produto->id")?>" 
-              class="btn btn-outline-warning btn-sm btn-icon-text"
-            > <i class="mdi mdi-stack-overflow btn-icon-prepend"></i> Especificações</a>
+        <a href="<?php echo site_url("admin/produtos/desfazerexclusao/$produto->id");?>"
+          class="btn btn-success btn-sm btn-icon-text"> <i class="mdi mdi-undo btn-icon-prepend"></i> Desfazer </a>
+        <?php else: ?>
+        <a href="<?php echo site_url("admin/produtos/editar/$produto->id")?>" class="btn btn-dark btn-sm btn-icon-text">
+          <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
 
-            <a 
-              href="<?php echo site_url("admin/produtos/excluir/$produto->id")?>" 
-              class="btn btn-danger btn-sm btn-icon-text"
-            > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
-            
-          <?php endif; ?>
+        <a href="<?php echo site_url("admin/produtos/extras/$produto->id")?>"
+          class="btn btn-outline-primary btn-sm btn-icon-text"> <i class="mdi mdi-sitemap btn-icon-prepend"></i>
+          Extras</a>
+
+        <a href="<?php echo site_url("admin/produtos/especificacoes/$produto->id")?>"
+          class="btn btn-outline-warning btn-sm btn-icon-text"> <i class="mdi mdi-stack-overflow btn-icon-prepend"></i>
+          Especificações</a>
+
+        <a href="<?php echo site_url("admin/produtos/excluir/$produto->id")?>"
+          class="btn btn-danger btn-sm btn-icon-text"> <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
+
+        <?php endif; ?>
 
 
-          <a 
-            href="<?php echo site_url("admin/produtos")?>" 
-            class="btn btn-light text-dark btn-sm btn-icon-text"
-          > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
+        <a href="<?php echo site_url("admin/produtos")?>" class="btn btn-light text-dark btn-sm btn-icon-text"> <i
+            class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 
-        </div>
       </div>
     </div>
   </div>
+</div>
 <?php echo $this->endSection(); ?>
 
 
 <?php echo $this->section('scripts'); ?>
-  
+
 
 <?php echo $this->endSection(); ?>
