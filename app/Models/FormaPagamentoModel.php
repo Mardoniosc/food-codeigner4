@@ -8,7 +8,7 @@ class FormaPagamentoModel extends Model
 {
     protected $table                = 'formas_pagamento';
     protected $primaryKey           = 'id';
-    protected $returnType           = 'App\Entities\FormasPagamento';
+    protected $returnType           = 'App\Entities\FormaPagamento';
     protected $useSoftDeletes       = true;
     protected $allowedFields        = ['nome', 'ativo'];
 
