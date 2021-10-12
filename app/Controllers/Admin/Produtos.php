@@ -263,11 +263,47 @@ class Produtos extends BaseController {
             'titulo'  => "Gerenciar os extras do produto $produto->nome",
             'produto' => $produto,
             'extras'  => $this->extraModel->where('ativo', true)->findAll(),
-            'produtosExtras' => $this->produtoExtraModel->buscaExtrasDoProduto($produto->id),
+            'produtosExtras' => $this->produtoExtraModel->buscaExtrasDoProduto($produto->id, 10),
+            'pager' => $this->produtoExtraModel->pager,
         ];
 
         return view('Admin/Produtos/extras', $data);
     }
+
+    public function cadastrarExtras($id = null) {
+        if($this->request->getMethod() == 'post') {
+
+            $produto = $this->buscarProdutoOu404($id);
+
+            $extraProduto['extra_id'] = $this->request->getPost('extra_id');
+            $extraProduto['produto_id'] = $produto->id;
+
+            $extraExistente = $this->produtoExtraModel
+                                ->where('produto_id', $produto->id)
+                                ->where('extra_id', $extraProduto['extra_id'])
+                                ->first();
+
+            if($extraExistente) {
+                return redirect()->back()->with('atencao', "Esse extra já existe para esse produto!");
+            }
+
+            if($this->produtoExtraModel->save($extraProduto)) {
+                return redirect()->back()->with('sucesso', "Extra adicionado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->produtoExtraModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+        }
+
+        /* não é um post */
+        return redirect()->back();
+    }
+
+    
 
 
     // METHODS PRIVATE

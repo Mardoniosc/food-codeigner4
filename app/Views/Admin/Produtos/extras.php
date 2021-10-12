@@ -39,7 +39,7 @@
           <div class="form-group col-md-6">
             <label>Escolha o extra do produto (opcional)</label>
             <select class="form-control js-example-basic-single" name="extra_id" id="extra_id">
-              <option>Escolha...</option>
+              <option disabled>Escolha...</option>
 
               <?php foreach($extras as $extra): ?>
               <option value="<?php echo $extra->id; ?>"><?php echo $extra->nome; ?></option>
@@ -76,7 +76,7 @@
                   <tr>
                     <th>Extra</th>
                     <th>Preço</th>
-                    <th>Remover</th>
+                    <th class="text-center">Remover</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,12 @@
                   <tr>
                     <td><?php echo $extraProduto->extra;?></td>
                     <td>R$&nbsp;<?php echo esc(number_format($extraProduto->preco, 2));?></td>
-                    <td><label class="badge badge-danger">&nbsp;X&nbsp;</label></td>
+                    <td class="text-center">
+                      <?php echo form_open("admin/produtos/excluirextra/$extraProduto->id"); ?>
+                        <button type="submit" class="btn badge badge-danger">&nbsp;X&nbsp;</button>
+                      <?php echo form_close(); ?>
+
+                    </td>
                   </tr>
 
                   <?php endforeach; ?>
@@ -94,6 +99,10 @@
 
                 </tbody>
               </table>
+            </div>
+
+            <div class="mt-3">
+              <?php echo $pager->links(); ?>
             </div>
             <?php endif; ?>
           </div>
