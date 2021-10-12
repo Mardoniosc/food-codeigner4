@@ -36,8 +36,10 @@
         <?php echo form_open("Admin/Produtos/cadastrarespecificacoes/$produto->id"); ?>
 
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>Escolha a especificação do produto (opcional)</label>
+          <div class="form-group col-md-4">
+            <label>Escolha a medida do produto <a href="javascript:void" data-toggle="popover"
+                title="Medida do produto"
+                data-content="Exemplo de uso para pizza: Pizza grande, Pizza Média, Pizza Família.">Entenda</a></label>
             <select class="form-control js-example-basic-single" name="extra_id" id="extra_id">
               <option disabled>Escolha...</option>
 
@@ -48,11 +50,31 @@
               <?php endforeach; ?>
             </select>
           </div>
+
+          <div class="form-group col-md-4">
+            <label for="preco">Preço</label>
+            <input type="text" class="form-control money" id="preco" name="preco" value="<?php echo old('preco'); ?>">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label>Produto customizável
+              <a href="javascript:void" data-toggle="popover" title="Produto meio a meio"
+                data-content="Exemplo de uso para pizza: Metade calabresa metade frango">Entenda</a>
+            </label>
+            <select class="form-control" name="customizavel" id="customizavel">
+              <option disabled>Escolha...</option>
+
+              <option value="1">Sim</option>
+              <option value="0">Não</option>
+
+            </select>
+          </div>
+
         </div>
 
         <button type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
           <i class="mdi mdi-content-save btn-icon-prepend"></i>
-          Inserir extra
+          Inserir medida
         </button>
 
         <a href="<?php echo site_url("admin/produtos/show/$produto->id")?>"
@@ -70,7 +92,8 @@
                 como opção de compra na área pública</p>
               <hr>
               <p class="mb-0">Aproveite para cadastrar pelo menos uma especificação para o produto
-                <strong><?php echo esc($produto->nome);?></strong>.</p>
+                <strong><?php echo esc($produto->nome);?></strong>.
+              </p>
             </div>
             <?php else: ?>
             <h4 class="card-title">Especificações do produto</h4>
@@ -131,16 +154,22 @@
 
 <script src="<?php echo site_url('admin/vendors/select2/select2.min.js');?>"></script>
 
+<script src="<?php echo site_url('admin/vendors/mask/app.js');?>"></script>
+<script src="<?php echo site_url('admin/vendors/mask/jquery.mask.min.js');?>"></script>
 
 <script>
+$(function() {
+  $('[data-toggle="popover"]').popover()
+});
+
 $(document).ready(function() {
   $('.js-example-basic-single').select2({
-    placeholder: 'Digite o nome do extra',
+    placeholder: 'Digite o nome da medida',
     allowClear: false,
 
     "language": {
       "noResults": function() {
-        return "Extra não encontrado&nbsp;&nbsp;<a class='btn btn-primary btn-sm' href='<?php echo site_url('admin/extras/criar');?>'>Cadastrar</a>";
+        return "Medida não encontrado&nbsp;&nbsp;<a class='btn btn-primary btn-sm' href='<?php echo site_url('admin/medidas/criar');?>'>Cadastrar</a>";
       }
     },
 
@@ -151,4 +180,5 @@ $(document).ready(function() {
   });
 });
 </script>
+
 <?php echo $this->endSection(); ?>
