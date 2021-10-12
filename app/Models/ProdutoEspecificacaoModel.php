@@ -15,7 +15,8 @@ class ProdutoEspecificacaoModel extends Model
     // validações
     protected $validationRules = [
         'medida_id' => 'required|integer',
-        'preco' => 'required|is_natural_no_zero',
+        'preco' => 'required|greater_than[0]',
+        'customizavel' => 'required|integer',
     ];
 
     protected $validationMessages = [
@@ -24,7 +25,10 @@ class ProdutoEspecificacaoModel extends Model
         ],
         'preco' => [
             'required' => 'Campo preço ainda não foi preenchido!',
-            'is_natural_no_zero' => 'Campo preço tem que ser maior que zero!',
+            'greater_than' => 'Campo preço tem que ser maior que zero!',
+        ],
+        'customizavel' => [
+            'required' => 'Campo customizável ainda não foi preenchido!',
         ],
     ];
 

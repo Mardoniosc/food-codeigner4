@@ -351,6 +351,42 @@ class Produtos extends BaseController {
         return view('Admin/Produtos/especificacoes', $data);
     }
 
+    public function cadastrarespecificacoes($id_produto = null) {
+        
+        if($this->request->getMethod() == 'post') {
+            $produto = $this->buscarProdutoOu404($id_produto);
+
+            $especificacao = $this->request->getPost();
+
+            $especificacao['produto_id'] = $produto->id;
+            $especificacao['preco'] = str_replace(",", "", $especificacao['preco']);
+
+            $especificacaoExistente = $this->produtoEspecificacaoModel
+                                    ->where('produto_id', $produto->id)
+                                    ->where('medida_id', $especificacao['medida_id'])
+                                    ->first();
+
+            if($especificacaoExistente) {
+                return redirect()->back()->with('atencao', "Esse especificação já existe para esse produto!")->withInput();
+            }
+
+            if($this->produtoEspecificacaoModel->save($especificacao)) {
+                return redirect()->back()->with('sucesso', "Espeficicação adicionado com sucesso!");
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->produtoEspecificacaoModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+        }
+
+
+        /* NÃO É POST */
+        return redirect()->back();
+
+    }
+
 
     // METHODS PRIVATE
 

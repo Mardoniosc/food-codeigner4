@@ -10,6 +10,33 @@
 <?php echo $this->section('estilos'); ?>
 
 <link rel="stylesheet" href="<?php echo site_url('admin/vendors/select2/select2.min.css');?>">
+<style>
+
+  .select2-container .select2-selection--single {
+    display: block;
+    width: 100%;
+    height: 2.875rem;
+    padding: 0.875rem 1.375rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 2px;
+    transition: border-color 0.15s ease-in-out, bos-shadow 0.15s ease-in-out;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 18px;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    top: 80%;
+  }
+  
+</style>
 
 <?php echo $this->endSection(); ?>
 
@@ -39,8 +66,8 @@
           <div class="form-group col-md-4">
             <label>Escolha a medida do produto <a href="javascript:void" data-toggle="popover"
                 title="Medida do produto"
-                data-content="Exemplo de uso para pizza: Pizza grande, Pizza Média, Pizza Família.">Entenda</a></label>
-            <select class="form-control js-example-basic-single" name="extra_id" id="extra_id">
+                data-content="Exemplo de uso para pizza: <br>Pizza grande,<br>Pizza Média,<br>Pizza Família.">Entenda</a></label>
+            <select class="form-control js-example-basic-single" name="medida_id" id="medida_id">
               <option disabled>Escolha...</option>
 
               <?php foreach($medidas as $medida): ?>
@@ -59,7 +86,7 @@
           <div class="form-group col-md-4">
             <label>Produto customizável
               <a href="javascript:void" data-toggle="popover" title="Produto meio a meio"
-                data-content="Exemplo de uso para pizza: Metade calabresa metade frango">Entenda</a>
+                data-content="Exemplo de uso para pizza: <br>Metade calabresa metade frango">Entenda</a>
             </label>
             <select class="form-control" name="customizavel" id="customizavel">
               <option disabled>Escolha...</option>
@@ -72,13 +99,13 @@
 
         </div>
 
-        <button type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
+        <button type="submit" class="btn btn-primary btn-sm mr-2 mt-3 mb-2 btn-icon-text">
           <i class="mdi mdi-content-save btn-icon-prepend"></i>
-          Inserir medida
+          Inserir especificação
         </button>
 
         <a href="<?php echo site_url("admin/produtos/show/$produto->id")?>"
-          class="btn btn-light text-dark btn-sm btn-icon-text"> <i class="mdi mdi-arrow-left btn-icon-prepend"></i>
+          class="btn btn-light text-dark btn-sm btn-icon-text mt-3 mb-2"> <i class="mdi mdi-arrow-left btn-icon-prepend"></i>
           Voltar</a>
         <?php echo form_close(); ?>
 
@@ -159,7 +186,10 @@
 
 <script>
 $(function() {
-  $('[data-toggle="popover"]').popover()
+  $('[data-toggle="popover"]').popover({
+    placement: 'top',
+    html: true
+  })
 });
 
 $(document).ready(function() {
