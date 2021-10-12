@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Entities\Produto;
 use App\Models\CategoriaModel;
 use App\Models\ExtraModel;
+use App\Models\MedidaModel;
+use App\Models\ProdutoEspecificacaoModel;
 use App\Models\ProdutoExtraModel;
 use App\Models\ProdutoModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
@@ -16,12 +18,18 @@ class Produtos extends BaseController {
     private $categoriaModel;
     private $extraModel;
     private $produtoExtraModel;
+    private $medidaModel;
+    private $produtoEspecificacaoModel;
 
     public function __construct() {
         $this->produtoModel = new ProdutoModel();
         $this->categoriaModel = new CategoriaModel();
+
         $this->extraModel = new ExtraModel();
         $this->produtoExtraModel = new ProdutoExtraModel();
+
+        $this->medidaModel = new MedidaModel();
+        $this->produtoEspecificacaoModel = new ProdutoEspecificacaoModel();
     }
 
     public function index() {
@@ -326,6 +334,21 @@ class Produtos extends BaseController {
 
          /* não é um post */
          return redirect()->back();
+    }
+
+    public function especificacoes($id = null) {
+
+        $produto = $this->buscarProdutoOu404($id);
+
+        $data = [
+            'titulo'  => "Gerenciar as especificações do produto $produto->nome",
+            'produto' => $produto,
+            'medidas'  => $this->medidaModel->where('ativo', true)->findAll(),
+            'produtoEspecificacoes' => $this->produtoEspecificacaoModel->buscaEspecificacoesDoProduto($produto->id, 10),
+            'pager' => $this->produtoEspecificacaoModel->pager,
+        ];
+
+        return view('Admin/Produtos/especificacoes', $data);
     }
 
 

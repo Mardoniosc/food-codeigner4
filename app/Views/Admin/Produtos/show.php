@@ -14,7 +14,7 @@
 
 <?php echo $this->section('conteudo'); ?>
   <div class="row">
-    <div class="col-lg-4 grid-margin stretch-card">
+    <div class="col-lg-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-header bg-primary pb-0 pt-4">
           <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
@@ -23,9 +23,9 @@
 
           <div class="text-center">
             <?php if($produto->imagem) :?>
-              <img class="card-img-top w-75" src="<?php echo site_url("admin/produtos/imagem/$produto->imagem")?>" alt="<?php echo esc($produto->nome); ?>">
+              <img class="card-img-top w-50" src="<?php echo site_url("admin/produtos/imagem/$produto->imagem")?>" alt="<?php echo esc($produto->nome); ?>">
             <?php else:?>
-                <img class="card-img-top w-75" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
+                <img class="card-img-top w-50" src="<?php echo site_url('admin/images/produto-sem-imagem.jpg');?>" alt="Card image cap">
             <?php endif;?>
           </div>
           <hr>
@@ -71,7 +71,7 @@
           <?php endif; ?>
           
         </div>
-        <div class="card-footer" style="display: flex; justify-content: space-between;">
+        <div class="card-footer">
           <?php if($produto->deletado_em): ?>
             
             <a href="<?php echo site_url("admin/produtos/desfazerexclusao/$produto->id");?>" 
@@ -85,8 +85,13 @@
   
             <a 
               href="<?php echo site_url("admin/produtos/extras/$produto->id")?>" 
-              class="btn btn-outline-github btn-sm btn-icon-text"
+              class="btn btn-outline-primary btn-sm btn-icon-text"
             > <i class="mdi mdi-sitemap btn-icon-prepend"></i> Extras</a>
+
+            <a 
+              href="<?php echo site_url("admin/produtos/especificacoes/$produto->id")?>" 
+              class="btn btn-outline-warning btn-sm btn-icon-text"
+            > <i class="mdi mdi-stack-overflow btn-icon-prepend"></i> Especificações</a>
 
             <a 
               href="<?php echo site_url("admin/produtos/excluir/$produto->id")?>" 
