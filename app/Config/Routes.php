@@ -38,6 +38,7 @@ $routes->get('login', 'Login::novo', ['filter' => 'visitante']);
 
 $routes->group('admin', function ($routes) {
     $routes->add('formas', 'Admin\FormasPagamento::index');
+    $routes->add('formas/show/(:num)', 'Admin\FormasPagamento::show/$1');
 });
 
 /*
