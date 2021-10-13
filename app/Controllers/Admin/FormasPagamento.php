@@ -49,11 +49,9 @@ class FormasPagamento extends BaseController {
         $formaPagamento = $this->buscarFormaPagamentoOu404($id);
 
         $data = [
-            'titulo'  => "Detalhando o forma $formaPagamento->nome",
+            'titulo'  => "Detalhando o forma de pagamento $formaPagamento->nome",
             'forma' => $formaPagamento,
         ];
-
-        dd($formaPagamento);
 
         return view('Admin/FormasPagamento/show', $data);
     }
