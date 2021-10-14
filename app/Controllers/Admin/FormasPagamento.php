@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\FormaPagamento;
 use App\Models\FormaPagamentoModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -54,6 +55,97 @@ class FormasPagamento extends BaseController {
         ];
 
         return view('Admin/FormasPagamento/show', $data);
+    }
+
+    public function editar($id = null) {
+
+        $formaPagamento = $this->buscarFormaPagamentoOu404($id);
+
+        if ($formaPagamento->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A forma de pagamento $formaPagamento->nome encontra-se excluído. Portando não é possível edita-lo!");
+        }
+
+        $data = [
+            'titulo'  => "Editando a forma de pagamento $formaPagamento->nome",
+            'forma' => $formaPagamento,
+        ];
+
+        return view('Admin/FormasPagamento/editar', $data);
+    }
+
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $forma = $this->buscarFormaPagamentoOu404($id);
+
+            if ($forma->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "A forma de pagamento $forma->nome encontra-se excluída. Portando não é possível edita-la!");
+            }
+
+            $forma->fill($this->request->getPost());
+
+            if(!$forma->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->formaPagamentoModel->save($forma)) {
+                return redirect()->to(site_url("admin/formas/show/$forma->id"))
+                                 ->with('sucesso', "Forma pagamento $forma->nome, atualizada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->formaPagamentoModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } 
+        
+        /* Não é POST */
+        return redirect()->back();
+    
+    }
+
+    public function criar() {
+
+        $formaPagamento = new FormaPagamento();
+
+        $data = [
+            'titulo'  => "Criando nova forma de pagamento",
+            'forma' => $formaPagamento,
+        ];
+
+        return view('Admin/FormasPagamento/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $formaPagamento = new FormaPagamento($this->request->getPost());
+
+            if($this->formaPagamentoModel->protect(false)->save($formaPagamento)) {
+                return redirect()->to(site_url("admin/formas/show/" . $this->formaPagamentoModel->getInsertID()))
+                                 ->with('sucesso', "Forma de pagamento $formaPagamento->nome, cadastrado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->formaPagamentoModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
 
