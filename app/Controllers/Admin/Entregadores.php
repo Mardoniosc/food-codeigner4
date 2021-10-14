@@ -3,11 +3,23 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\EntregadorModel;
 
-class Entregadores extends BaseController
-{
-    public function index()
-    {
-        //
+class Entregadores extends BaseController {
+    
+    private $entregadorModel;
+
+    public function __construct() {
+        $this->entregadorModel = new EntregadorModel();
+    }
+
+    public function index() {
+        $data = [
+            'titulo' => 'Listando os entregadores de produtos',
+            'entregadores' => $this->entregadorModel->withDeleted(true)->paginate(10),
+            'pager' => $this->entregadorModel->pager,
+        ];
+
+        return view('Admin/Entregadores/index', $data);
     }
 }
