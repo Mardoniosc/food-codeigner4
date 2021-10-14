@@ -43,6 +43,9 @@ $routes->group('admin', function ($routes) {
     $routes->post('formas/atualizar/(:num)', 'Admin\FormasPagamento::atualizar/$1');
     $routes->post('formas/cadastrar/(:num)', 'Admin\FormasPagamento::cadastrar/$1');
     $routes->get('formas/criar', 'Admin\FormasPagamento::criar');
+    
+    $routes->match(['get', 'post'],'formas/excluir/(:num)', 'Admin\FormasPagamento::excluir/$1');
+    $routes->add('formas/desfazerexclusao/(:num)', 'Admin\FormasPagamento::desfazerexclusao/$1');
 });
 
 /*

@@ -59,6 +59,10 @@ class FormasPagamento extends BaseController {
 
     public function editar($id = null) {
 
+        if($id == 1) {
+            return redirect()->to(site_url('admin/formas/show/1'));
+        }
+
         $formaPagamento = $this->buscarFormaPagamentoOu404($id);
 
         if ($formaPagamento->deletado_em) {
@@ -146,6 +150,54 @@ class FormasPagamento extends BaseController {
             /* Não é POST */
             return redirect()->back();
         }
+    }
+
+    public function excluir($id = null) {
+
+        if($id == 1) {
+            return redirect()->to(site_url('admin/formas/show/1'));
+        }
+
+        $formaPagamento = $this->buscarFormaPagamentoOu404($id);
+
+        if ($formaPagamento->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "A forma de pagamento $formaPagamento->nome já encontra-se excluído");
+        }
+
+        if($this->request->getMethod() === 'post') {
+
+            $this->formaPagamentoModel->delete($id);
+            
+            return redirect()->to(site_url('admin/formas'))
+                             ->with('sucesso', "Forma de pagamento $formaPagamento->nome excluída com sucesso!");
+        }
+
+        $data = [
+            'titulo'  => "Excluindo a forma de pagamento $formaPagamento->nome",
+            'forma' => $formaPagamento,
+        ];
+
+        return view('Admin/FormasPagamento/excluir', $data);
+    }
+
+    public function desfazerexclusao($id = null) {
+
+        $formaPagamento = $this->buscarFormaPagamentoOu404($id);
+
+        if(!$formaPagamento->deletado_em) {
+            return redirect()->back()->with('info', 'Apenas formas de pagamentos excluídas podem ser recuperadas');
+        }
+
+        if($this->formaPagamentoModel->desafazerExclusao($id)) {
+            return redirect()->back()->with('sucesso', 'Exclusão desfeita com sucesso!');
+        }
+
+        return redirect()->back()
+                            ->with("errors_model", $this->formaPagamentoModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
     }
 
 
