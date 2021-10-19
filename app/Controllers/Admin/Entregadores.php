@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Entregador;
 use App\Models\EntregadorModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -42,6 +43,42 @@ class Entregadores extends BaseController {
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function criar() {
+
+        $entregador = new Entregador();
+
+        $data = [
+            'titulo'  => "Criando novo entregador",
+            'entregador' => $entregador,
+        ];
+
+        return view('Admin/Entregadores/criar', $data);
+    }
+
+    public function cadastrar() {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $entregador = new Entregador($this->request->getPost());
+
+            if($this->entregadorModel->protect(false)->save($entregador)) {
+                return redirect()->to(site_url("admin/entregadores/show/" . $this->entregadorModel->getInsertID()))
+                                 ->with('sucesso', "Entregador $entregador->nome, cadastrada com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->entregadorModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
     }
 
     public function show($id = null) {
