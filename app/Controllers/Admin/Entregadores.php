@@ -68,6 +68,42 @@ class Entregadores extends BaseController {
         return view('Admin/Entregadores/editar', $data);
     }
 
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $entregador = $this->buscarEntregadorOu404($id);
+
+            if ($entregador->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "O entregador $entregador->nome encontra-se excluído. Portando não é possível edita-lo!");
+            }
+
+            $entregador->fill($this->request->getPost());
+
+            if(!$entregador->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->entregadorModel->save($entregador)) {
+                return redirect()->to(site_url("admin/entregadores/show/$entregador->id"))
+                                 ->with('sucesso', "Entregador $entregador->nome, atualizado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->entregadorModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
     // METHODS PRIVATE
 
     /**
