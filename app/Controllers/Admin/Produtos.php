@@ -169,7 +169,7 @@ class Produtos extends BaseController {
         $produto = $this->buscarProdutoOu404($id);
 
         if($produto->deletado_em) {
-            return redirect()->back()->with('info', 'Não é possível editar a aimagem de um produto excluído.');
+            return redirect()->back()->with('info', 'Não é possível editar a imagem de um produto excluído.');
         }
 
         $data = [
