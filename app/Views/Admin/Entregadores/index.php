@@ -43,8 +43,8 @@
               <tbody>
                 <?php foreach ($entregadores as $entregador): ?>
                   <tr>
-                    <td>
-                      <img src="" width="width" height="height" alt="">
+                    <td class="py-1">
+                      <img src="<?php echo site_url('admin/');?>images/faces/face5.jpg" alt="image" />
                     </td>
                     <td>
                       <a href="<?php echo site_url("admin/entregadores/show/$entregador->id");?>">
