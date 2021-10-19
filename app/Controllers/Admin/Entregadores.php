@@ -17,7 +17,7 @@ class Entregadores extends BaseController {
 
     public function index() {
         $data = [
-            'titulo' => 'Listando os entregadores de produtos',
+            'titulo' => 'Listando os entregadores de entregadores',
             'entregadores' => $this->entregadorModel->withDeleted(true)->paginate(10),
             'pager' => $this->entregadorModel->pager,
         ];
@@ -138,6 +138,108 @@ class Entregadores extends BaseController {
         } else {
             /* Não é POST */
             return redirect()->back();
+        }
+    }
+
+    public function editarImagem($id = null) {   
+        $entregador = $this->buscarEntregadorOu404($id);
+
+        if($entregador->deletado_em) {
+            return redirect()->back()->with('info', 'Não é possível editar a imagem de um entregador excluído.');
+        }
+
+        $data = [
+            'titulo'  => "Editando a imagem do entregador $entregador->nome",
+            'entregador' => $entregador,
+        ];
+
+        return view('Admin/Entregadores/editar_imagem', $data);
+    }
+
+    public function upload($id = null) {
+        $entregador = $this->buscarEntregadorOu404($id);
+
+        $imagem = $this->request->getFile('foto_entregador');
+
+
+
+        if(!$imagem->isValid()) {
+            $codigoErro = $imagem->getError();
+
+            if($codigoErro == UPLOAD_ERR_NO_FILE) {
+                return redirect()->back()->with("atencao", "Nenhum arquivo foi selecionado");
+            }
+        }
+        
+        $tamanhoImagem = $imagem->getSizeByUnit('mb');
+        
+        if($tamanhoImagem > 2) {
+            return redirect()->back()->with("atencao", "O arquivo selecionado é muito grand. Máximo permitido é: 2MB");
+        }
+
+        $tipoImagem = $imagem->getExtension();
+        
+        $tiposPermitidos = [ 'jpeg', 'jpg','png', 'webp' ];
+
+        if (!in_array($tipoImagem, $tiposPermitidos)) {
+            return redirect()
+                    ->back()
+                    ->with("atencao", "O arquivo não tem o formato permitido. Apenas ". implode(", ",$tiposPermitidos));
+        }
+
+        list($largura, $altura) = getimagesize($imagem->getPathname());
+
+        if($largura < "400" || $altura < "400" ) {
+            return redirect()
+                    ->back()
+                    ->with("atencao", "A imagem não poder ser menor do que 400 x 400 pixels.");
+        }
+        
+        // ------------------------ A parti desse ponto fazemos o store da imagem ------------------------ //
+        /* Fazendo o store da imagem e recuperando o caminho da mesma */
+        $imagemCaminho = $imagem->store('entregadores');
+        $imagemCaminho = WRITEPATH . 'uploads/' . $imagemCaminho;
+        
+        /* Fazendo o resize da mesma imagem */
+        service('image')->withFile($imagemCaminho)
+                        ->fit(400, 400, 'center')
+                        ->save($imagemCaminho);
+
+        /* Recuperando a imagem antiga para excluí-la */
+        $imagemAntiga = $entregador->imagem;
+    
+        /* Atribuindo a nova imagem */
+        $entregador->imagem = $imagem->getName();
+
+        /* Atualizando a imagem do entregador */
+        $this->entregadorModel->save($entregador);
+
+        /* Definindo o caminho da imagem antiga */
+        $caminhoImagem = WRITEPATH . 'uploads/entregadores/' . $imagemAntiga;
+
+        if(is_file($caminhoImagem)) {
+            unlink($caminhoImagem);
+        }
+
+        return redirect()
+                ->to(site_url("admin/entregadores/show/$entregador->id"))
+                ->with("sucesso", "Imagem alterada com sucesso!");
+    }
+
+    public function imagem(string $imagem =  null) {
+        if($imagem) {
+
+            $caminhoImagem = WRITEPATH . 'uploads/entregadores/' . $imagem;
+
+            $infoImagem = new \finfo(FILEINFO_MIME);
+
+            $tipoImagem = $infoImagem->file($caminhoImagem);
+
+            header("Content-Type: $tipoImagem");
+            header("Content-Length: " . filesize($caminhoImagem));
+
+            readfile($caminhoImagem);
+            exit;
         }
     }
 
