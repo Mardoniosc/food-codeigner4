@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Entities\Bairro;
 use App\Models\BairroModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -45,6 +46,18 @@ class Bairros extends BaseController {
 
         return $this->response->setJSON($retorno);
 
+    }
+
+    public function criar() {
+
+        $bairro = new Bairro();
+
+        $data = [
+            'titulo'  => "Criando novo bairro",
+            'bairro' => $bairro,
+        ];
+
+        return view('Admin/Bairros/criar', $data);
     }
 
     public function show($id = null) {

@@ -38,7 +38,7 @@
   </label>
 </div>
 
-<button type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
+<button id="btn-salvar" type="submit" class="btn btn-primary btn-sm mr-2 btn-icon-text">
   <i class="mdi mdi-content-save btn-icon-prepend"></i>
   Salvar
 </button>
