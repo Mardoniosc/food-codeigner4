@@ -25,8 +25,8 @@
     </div>
   <?php endif; ?>
   <div class="form-group col-md-3">
-    <label for="preco">Valor de entrega</label>
-    <input type="text" class="money form-control" id="preco" name="preco" value="<?php echo old('preco', esc($bairro->valor_entrega)); ?>">
+    <label for="valor_entrega">Valor de entrega</label>
+    <input type="text" class="money form-control" id="valor_entrega" name="valor_entrega" value="<?php echo old('valor_entrega', esc($bairro->valor_entrega)); ?>">
   </div>
 </div>
 <div class="form-check form-check-flat form-check-primary mb-4">

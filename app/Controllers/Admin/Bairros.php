@@ -71,6 +71,44 @@ class Bairros extends BaseController {
         return view('Admin/Bairros/editar', $data);
     }
 
+    public function atualizar($id = null) {
+        
+        if($this->request->getMethod() === 'post') {
+            
+            $bairro = $this->buscarBairroOu404($id);
+
+            if ($bairro->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "O bairro $bairro->nome encontra-se excluído. Portando não é possível edita-lo!");
+            }
+
+            $bairro->fill($this->request->getPost());
+
+            $bairro->valor_entrega = str_replace(",", "", $bairro->valor_entrega);
+            
+            if(!$bairro->hasChanged()) {
+                return redirect()->back()->with('info', 'Nenhum dado foi alterado no formulário para atualizar!');
+            }
+
+            if($this->bairroModel->save($bairro)) {
+                return redirect()->to(site_url("admin/bairros/show/$bairro->id"))
+                                 ->with('sucesso', "Bairro $bairro->nome, atualizado com sucesso!");
+
+            }
+
+            return redirect()->back()
+                             ->with("errors_model", $this->bairroModel->errors())
+                             ->with("atencao", 'Verifique os erros abaixo!')
+                             ->withInput();
+
+
+        } else {
+            /* Não é POST */
+            return redirect()->back();
+        }
+    }
+
     // METHODS PRIVATE
 
     /**

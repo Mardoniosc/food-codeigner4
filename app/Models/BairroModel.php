@@ -21,7 +21,6 @@ class BairroModel extends Model
      // validações
      protected $validationRules = [
         'nome' => 'required|min_length[3]|max_length[120]|is_unique[bairros.nome]',
-        'cep' => 'required|exact_length[9]',
         'valor_entrega' => 'required',
     ];
 
@@ -29,9 +28,6 @@ class BairroModel extends Model
         'nome' => [
             'required' => 'Campo nome ainda não foi preenchido!',
             'is_unique' => 'Desculpe. Essa categoria já existe na base!',
-        ],
-        'cep' => [
-            'required' => 'Campo cep ainda não foi preenchido!',
         ],
         'valor_entrega' => [
             'required' => 'Campo valor de entrega ainda não foi preenchido!',
