@@ -31,12 +31,12 @@
 
           <?php endif; ?>
 
-          <?php echo form_open("Admin/Extras/atualizar/$extra->id"); ?>
+          <?php echo form_open("Admin/Bairros/atualizar/$bairro->id"); ?>
           
 
-            <?php echo $this->include('Admin/Extras/form'); ?>
+            <?php echo $this->include('Admin/Bairros/form'); ?>
 
-            <a href="<?php echo site_url("admin/extras/show/$extra->id")?>" 
+            <a href="<?php echo site_url("admin/bairros/show/$bairro->id")?>" 
               class="btn btn-light text-dark btn-sm btn-icon-text"
             > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
           <?php echo form_close(); ?>
