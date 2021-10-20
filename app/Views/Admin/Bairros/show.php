@@ -17,62 +17,54 @@
     <div class="col-lg-6 grid-margin stretch-card">
       <div class="card">
         <div class="card-header bg-primary pb-0 pt-4">
-          <h4 class="card-title text-white"><?php echo esc($titulo); ?></h4>
+          <h4 class="card-title text-white"><?php echo esc($titulo); ?> | Brasília-DF</h4>
         </div>
         <div class="card-body">
 
           <p class="card-text">
             <span class="font-weight-bold">Nome:</span>
-            <?php echo esc($extra->nome); ?>
+            <?php echo esc($bairro->nome); ?>
           </p>
           <p class="card-text">
-            <span class="font-weight-bold">Preço:</span>
-            R$&nbsp;<?php echo esc(number_format($extra->preco, 2)); ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Descrição:</span>
-            <?php echo esc($extra->descricao); ?>
-          </p>
-          <p class="card-text">
-            <span class="font-weight-bold">Slug:</span>
-            <?php echo esc($extra->slug); ?>
+            <span class="font-weight-bold">Valor de entrega:</span>
+            R$&nbsp;<?php echo esc(number_format($bairro->valor_entrega, 2)); ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Ativo:</span>
-            <?php echo $extra->ativo ? 'Sim' : 'Não'; ?>
+            <?php echo $bairro->ativo ? 'Sim' : 'Não'; ?>
           </p>
           <p class="card-text">
             <span class="font-weight-bold">Criado:</span>
-            <?php echo $extra->criado_em->humanize();?>
+            <?php echo $bairro->criado_em->humanize();?>
           </p>
 
-          <?php if($extra->deletado_em): ?>
+          <?php if($bairro->deletado_em): ?>
             <p class="card-text">
               <span class="font-weight-bold text-danger">Excluído:</span>
-              <?php echo $extra->deletado_em->humanize(); ?>
+              <?php echo $bairro->deletado_em->humanize(); ?>
             </p>
           <?php else: ?>
             <p class="card-text">
               <span class="font-weight-bold">Atualizado:</span>
-              <?php echo $extra->atualizado_em->humanize(); ?>
+              <?php echo $bairro->atualizado_em->humanize(); ?>
             </p>
           <?php endif; ?>
           
         </div>
         <div class="card-footer" style="display: flex; justify-content: space-between;">
-          <?php if($extra->deletado_em): ?>
+          <?php if($bairro->deletado_em): ?>
             
-            <a href="<?php echo site_url("admin/extras/desfazerexclusao/$extra->id");?>" 
+            <a href="<?php echo site_url("admin/bairros/desfazerexclusao/$bairro->id");?>" 
                           class="btn btn-success btn-sm btn-icon-text"
                         > <i class="mdi mdi-undo btn-icon-prepend"></i> Desfazer </a>
           <?php else: ?>
             <a 
-              href="<?php echo site_url("admin/extras/editar/$extra->id")?>" 
+              href="<?php echo site_url("admin/bairros/editar/$bairro->id")?>" 
               class="btn btn-dark btn-sm btn-icon-text"
             > <i class="mdi mdi-pencil btn-icon-prepend"></i> Editar</a>
   
             <a 
-              href="<?php echo site_url("admin/extras/excluir/$extra->id")?>" 
+              href="<?php echo site_url("admin/bairros/excluir/$bairro->id")?>" 
               class="btn btn-danger btn-sm btn-icon-text"
             > <i class="mdi mdi-trash-can btn-icon-prepend"></i> Excluir</a>
             
@@ -80,7 +72,7 @@
 
 
           <a 
-            href="<?php echo site_url("admin/extras")?>" 
+            href="<?php echo site_url("admin/bairros")?>" 
             class="btn btn-light text-dark btn-sm btn-icon-text"
           > <i class="mdi mdi-arrow-left btn-icon-prepend"></i> Voltar</a>
 
