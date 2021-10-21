@@ -41,6 +41,9 @@ class Produtos extends BaseController {
                                 ->join('categorias', 'categorias.id = produtos.categoria_id')
                                 ->withDeleted(true)
                                 ->paginate(10),
+            'especificacoes' => $this->produtoEspecificacaoModel
+                                      ->join('medidas', 'medidas.id = produtos_especificacoes.medida_id')
+                                      ->findAll(),
             'pager' => $this->produtoModel->pager,
         ];
         

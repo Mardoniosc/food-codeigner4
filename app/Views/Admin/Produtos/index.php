@@ -35,6 +35,7 @@
                   <th>Nome</th>
                   <th>Categoria</th>
                   <th>Data de Criação</th>
+                  <th>Especificações</th>
                   <th>Ativo</th>
                   <th>Situação</th>
                 </tr>
@@ -49,6 +50,18 @@
                     </td>
                     <td><?php echo $produto->categoria; ?></td>
                     <td><?php echo $produto->criado_em->humanize(); ?></td>
+                    <td>
+                      <?php foreach ($especificacoes as $especificacao): ?>
+                          <?php if($produto->id == $especificacao->produto_id): ?>
+                            <p><?php echo esc($especificacao->nome) .'&nbsp:&nbspR$&nbsp;'. esc($especificacao->preco); ?> </p>
+
+                            <?php else: ?>
+                              <p class="text-danger">Sem especificação definida</p>
+                              <?php break; ?>
+                          <?php endif; ?>
+                      <?php endforeach; ?>
+                    </td>
+
                     <td><?php echo ($produto->ativo && !$produto->deletado_em) ?'<label class="badge badge-primary">Sim</label>' : '<label class="badge badge-danger">Não</label>'; ?></td>
 
                     <td>

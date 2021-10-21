@@ -27,7 +27,7 @@
             </ul>
           <?php endif; ?>
 
-          <?php echo form_open("admin/expediente", ['class' => 'form-row']); ?>
+          <?php echo form_open("admin/expedientes", ['class' => 'form-row']); ?>
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead>
