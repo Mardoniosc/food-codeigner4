@@ -22,7 +22,7 @@ class UsuarioModel extends Model
     // validações
     protected $validationRules = [
         'nome' => 'required|min_length[4]|max_length[120]',
-        'email' => 'required|valid_email|is_unique[usuarios.email]',
+        'email' => 'required|valid_email|is_unique[usuarios.email,id,{id}]',
         'cpf' => 'required|is_unique[usuarios.cpf]|exact_length[14]|validaCpf',
         'telefone' => 'required',
         'password' => 'required|min_length[4]',

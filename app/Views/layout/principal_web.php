@@ -72,7 +72,7 @@
 
             <!-- BEGIN carousel -->
             <div id="main-carousel" class="carousel slide" data-ride="carousel">
-                <div class="container pos_rel">
+                <div class="container pos_rel" style="min-height: 1vh !important;">
 
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
@@ -102,13 +102,6 @@
                                     <div class="item_badge">
                                         <span class="badge_btext">20%</span>
                                         <span class="badge_stext">OFF</span>
-                                    </div>
-                                </div>
-                                <div class="fadeUp fade-slow item_details">
-                                    <h4 class="item_name">Delicious Food</h4>
-                                    <p class="item_info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <div class="item_link_box">
-                                        <a href="#reservation" class="item_link page-scroll">Make Reservation</a>
                                     </div>
                                 </div>
                             </div>
@@ -238,10 +231,8 @@
                                     <div class="navbar-right">
                                         <ul class="nav navbar-nav">
                                             <li><a class="page-scroll" href="#header">Home</a></li>
-                                            <li><a class="page-scroll" href="#about_us">About</a></li>
-                                            <li><a class="page-scroll" href="#menu">Menus</a></li>
+                                            <li><a class="page-scroll" href="#menu">Delicias</a></li>
                                             <li><a class="page-scroll" href="#gallery">Gallery</a></li>
-                                            <li><a class="page-scroll" href="#reservation">Reservation</a></li>
                                             <li><a class="page-scroll" href="#footer">Contact</a></li>
                                         </ul>
                                     </div>
@@ -421,10 +412,8 @@
         </div>
         <ul class="rmenu_list">
             <li><a class="page-scroll" href="#header">Home</a></li>
-            <li><a class="page-scroll" href="#about_us">About</a></li>
-            <li><a class="page-scroll" href="#menu">Menus</a></li>
+            <li><a class="page-scroll" href="#menu">Delicias</a></li>
             <li><a class="page-scroll" href="#gallery">Gallery</a></li>
-            <li><a class="page-scroll" href="#reservation">Reservation</a></li>
             <li><a class="page-scroll" href="#footer">Contact</a></li>
         </ul>
         <div class="right_menu_addr top_addr">
