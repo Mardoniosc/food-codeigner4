@@ -102,6 +102,12 @@ class Bairros extends BaseController {
 
         $bairro = $this->buscarBairroOu404($id);
 
+        if ($bairro->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "O bairro $bairro->nome já encontra-se excluído. Portanto, não é possivel editá-lo");
+        }
+
         $data = [
             'titulo'  => "Editando o bairro $bairro->nome",
             'bairro' => $bairro,
@@ -115,6 +121,12 @@ class Bairros extends BaseController {
         if($this->request->getMethod() === 'post') {
             
             $bairro = $this->buscarBairroOu404($id);
+
+            if ($bairro->deletado_em) {
+                return redirect()
+                        ->back()
+                        ->with("info", "O bairro $bairro->nome já encontra-se excluído. Portanto não é possível atualiza-lo!");
+            }
 
             if ($bairro->deletado_em) {
                 return redirect()
@@ -185,6 +197,50 @@ class Bairros extends BaseController {
 
         return $this->response->setJSON($retorno);
         
+    }
+
+    public function excluir($id = null) {
+
+        $bairro = $this->buscarBairroOu404($id);
+
+        if ($bairro->deletado_em) {
+            return redirect()
+                    ->back()
+                    ->with("info", "O bairro $bairro->nome já encontra-se excluído");
+        }
+
+        if($this->request->getMethod() === 'post') {
+
+            $this->bairroModel->delete($id);
+            
+            return redirect()->to(site_url('admin/bairros'))
+                             ->with('sucesso', "Bairro $bairro->nome excluído com sucesso!");
+        }
+
+        $data = [
+            'titulo'  => "Excluindo o bairro $bairro->nome",
+            'bairro' => $bairro,
+        ];
+
+        return view('Admin/Bairros/excluir', $data);
+    }
+
+    public function desfazerexclusao($id = null) {
+
+        $bairro = $this->buscarBairroOu404($id);
+
+        if(!$bairro->deletado_em) {
+            return redirect()->back()->with('info', 'Apenas bairros excluídos podem ser recuperados');
+        }
+
+        if($this->bairroModel->desafazerExclusao($id)) {
+            return redirect()->back()->with('sucesso', 'Exclusão desfeita com sucesso!');
+        }
+
+        return redirect()->back()
+                            ->with("errors_model", $this->bairroModel->errors())
+                            ->with("atencao", 'Verifique os erros abaixo!')
+                            ->withInput();
     }
 
     // METHODS PRIVATE
