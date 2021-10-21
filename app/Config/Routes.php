@@ -46,6 +46,9 @@ $routes->group('admin', function ($routes) {
     
     $routes->match(['get', 'post'],'formas/excluir/(:num)', 'Admin\FormasPagamento::excluir/$1');
     $routes->add('formas/desfazerexclusao/(:num)', 'Admin\FormasPagamento::desfazerexclusao/$1');
+    
+    $routes->match(['get', 'post'],'expedientes', 'Admin\Expedientes::expedientes');
+
 });
 
 /*

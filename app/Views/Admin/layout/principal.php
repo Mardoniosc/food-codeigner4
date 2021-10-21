@@ -219,6 +219,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="<?php  echo site_url("admin/expedientes")?>">
+              <i class="mdi mdi-calendar-clock menu-icon"></i>
+              <span class="menu-title">Expediente</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="<?php  echo site_url("admin/usuarios")?>">
               <i class="mdi mdi-account-settings menu-icon"></i>
               <span class="menu-title">Usuarios</span>
