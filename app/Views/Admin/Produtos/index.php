@@ -54,10 +54,6 @@
                       <?php foreach ($especificacoes as $especificacao): ?>
                           <?php if($produto->id == $especificacao->produto_id): ?>
                             <p><?php echo esc($especificacao->nome) .'&nbsp:&nbspR$&nbsp;'. esc($especificacao->preco); ?> </p>
-
-                            <?php else: ?>
-                              <p class="text-danger">Sem especificação definida</p>
-                              <?php break; ?>
                           <?php endif; ?>
                       <?php endforeach; ?>
                     </td>
