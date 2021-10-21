@@ -20,7 +20,8 @@ class BairroModel extends Model
 
      // validações
      protected $validationRules = [
-        'nome' => 'required|min_length[3]|max_length[120]|is_unique[bairros.nome]',
+        'nome' => 'required|max_length[120]|is_unique[bairros.nome]',
+        'cidade' => 'required|equals[Brasília]',
         'valor_entrega' => 'required',
     ];
 
@@ -31,6 +32,10 @@ class BairroModel extends Model
         ],
         'valor_entrega' => [
             'required' => 'Campo valor de entrega ainda não foi preenchido!',
+        ],
+        'cidade' => [
+            'required' => 'Campo cidade ainda não foi preenchido!',
+            'equals' => 'Favor cadastre apenas bairros de Brasília-DF!',
         ]
     ];
 
