@@ -76,7 +76,7 @@
       success: function(response) {
 
         if(!response.erro) {
-
+          $("#cep").html('');
           $('[name=nome]').val(response.endereco.bairro);
           $('[name=cidade]').val(response.endereco.localidade);
           $('[name=estado]').val(response.endereco.uf);

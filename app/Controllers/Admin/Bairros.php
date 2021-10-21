@@ -140,7 +140,24 @@ class Bairros extends BaseController {
             return $this->response->setJSON($retorno);
         }
 
-        print_r($this->request->getGet());
+        /* CEP formatado */
+        $cep = str_replace("-", "", $this->request->getGet('cep'));
+
+
+        /* Carregando o Helper */
+        helper('consulta_cep');
+
+        $consulta = consultaCep($cep);
+
+        if (isset($consulta->erro) && !isset($consulta->cep)) {
+            $retorno['erro'] = '<span class="text-danger small"> CEP inválido. </span>';
+
+            return $this->response->setJSON($retorno);
+        }
+
+        $retorno['endereco'] = $consulta;
+
+        return $this->response->setJSON($retorno);
         
     }
 
