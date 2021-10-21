@@ -17,7 +17,22 @@ class Expedientes extends BaseController
 
         if($this->request->getMethod() == 'post') {
             
-            dd($this->request->getPost());
+            $postExpedientes = $this->request->getPost();
+
+            $arrayExpedientes = [];
+
+            for ($i=0; $i < count($postExpedientes['dia_descricao']); $i++) { 
+                array_push($arrayExpedientes, [
+                    'dia_descricao' => $postExpedientes['dia_descricao'][$i],
+                    'abertura' => $postExpedientes['abertura'][$i],
+                    'fechamento' => $postExpedientes['fechamento'][$i],
+                    'situacao' => $postExpedientes['situacao'][$i],
+                ]);
+            }
+
+            $this->expedienteModel->updateBatch($arrayExpedientes, 'dia_descricao');
+
+            return redirect()->back()->with("sucesso", "Expedientes atualizados com sucesso!");
         }
 
         $data = [
