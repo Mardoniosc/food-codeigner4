@@ -23,21 +23,18 @@
   <!--    Menus filter    -->
   <div class="menu_filter text-center">
     <ul class="list-unstyled list-inline d-inline-block">
-      <li class="item active">
-        <a href="javascript:;" class="filter-button" data-filter="burger">Burger</a>
-      </li>
-      <li class="item">
-        <a href="javascript:;" class="filter-button" data-filter="pizza">Pizza</a>
-      </li>
-      <li class="item">
-        <a href="javascript:;" class="filter-button" data-filter="salad">Salad</a>
-      </li>
-      <li class="item">
-        <a href="javascript:;" class="filter-button" data-filter="frices">Frices</a>
-      </li>
-      <li class="item">
-        <a href="javascript:;" class="filter-button" data-filter="drinks">Drinks</a>
-      </li>
+
+        <li id="todas" class="item active">
+          <a href="javascript:;" class="filter-button" data-filter="todas">Todas</a>
+        </li>
+
+      <?php foreach ($categorias as $categoria): ?>
+
+        <li class="item">
+          <a href="javascript:;" class="filter-button" data-filter="<?php echo $categoria->slug;?>"><?php echo $categoria->nome; ?></a>
+        </li>
+
+      <?php endforeach; ?>
     </ul>
   </div>
 
