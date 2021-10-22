@@ -27,29 +27,47 @@
           </div>
         </div>
 
-        <div class="col-md-7 col-md-offset-1 col-sm-12 col-xs-12">
-          <h2 class="name">
-            <?php echo esc($produto->nome); ?>
-          </h2>
-          <hr />
-          <h3 class="price-container">
-            $129.54
-          </h3>
-          <hr />
-            <div id="myTabContent" class="tab-content">
-              <div class="tab-pane fade active in" id="more-information">
-                <br />
-                <strong>Ingredientes do produto</strong>
-                <p><?php echo esc($produto->ingredientes); ?></p>
+        <?php echo form_open("carrinho/adicionar");?>
+
+          <div class="col-md-7 col-md-offset-1 col-sm-12 col-xs-12">
+            <h2 class="name">
+              <?php echo esc($produto->nome); ?>
+            </h2>
+            <hr />
+            <h3 class="price-container">
+              $129.54
+            </h3>
+            <hr />
+              <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="more-information">
+                  <br />
+                  <strong>É uma delícia</strong>
+                  <p><?php echo esc($produto->ingredientes); ?></p>
+                </div>
+              </div>
+            <hr />
+            
+            <div>
+
+              <input type="text" placeholder="produto[slug]" name="produto[slug]" value="<?php echo $produto->slug; ?>">
+              
+              <input type="text" placeholder="produto[especificacao_id]" id="especificacao_id" name="produto[especificacao_id]">
+
+              <input type="text" placeholder="produto[extra_id]" id="extra_id" name="produto[extra_id]">
+
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-lg-6" style="display: flex;">
+
+                <input type="submit" value="Adicionar ao carrinho" class="btn btn-success btn-lg">
+
+                <a href="<?php echo site_url('/'); ?>" class="btn btn-info btn-lg col-sm-offset-1">Mais delícias</a>
               </div>
             </div>
-          <hr />
-          <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-              <a href="javascript:void(0);" class="btn btn-success btn-lg">Adicionar ao carrinho</a>
-            </div>
           </div>
-        </div>
+
+        <?php echo form_close();?>
+
       </div>
     </div>
     <!-- end product -->
