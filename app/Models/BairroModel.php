@@ -20,7 +20,7 @@ class BairroModel extends Model
 
      // validações
      protected $validationRules = [
-        'nome' => 'required|max_length[120]|is_unique[bairros.nome]',
+        'nome' => 'required|max_length[120]|is_unique[bairros.nome,id,{id}]',
         'cidade' => 'required|equals[Brasília]',
         'valor_entrega' => 'required',
     ];

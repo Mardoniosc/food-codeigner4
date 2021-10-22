@@ -21,7 +21,7 @@ class MedidaModel extends Model
 
     // validações
     protected $validationRules = [
-        'nome' => 'required|min_length[3]|max_length[120]|is_unique[medidas.nome]',
+        'nome' => 'required|min_length[3]|max_length[120]|is_unique[medidas.nome,id,{id}]',
     ];
 
     protected $validationMessages = [

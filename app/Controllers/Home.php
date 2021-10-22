@@ -2,30 +2,30 @@
 
 namespace App\Controllers;
 
+use App\Models\CategoriaModel;
+use App\Models\ProdutoModel;
 use Config\Services;
 
-class Home extends BaseController
-{
-    public function index()
-    {
-        return view('welcome_message');
+class Home extends BaseController {
+    
+    private $categoriaModel;
+    private $produtoModel;
+
+    public function __construct() {
+        $this->categoriaModel = new CategoriaModel();
+        $this->produtoModel = new ProdutoModel();
     }
 
-    public function email() {
-        $email = Services::email();
+    public function index() {
 
-        $email->setFrom('mardonio@live.com', 'Mardonio');
-        $email->setTo('katya1071@uorak.com');
-        $email->setCC('katya1071@uorak.com');
-        // $email->setBCC('them@their-example.com');
 
-        $email->setSubject('Teste de E-mail');
-        $email->setMessage('Enviado o ultimo E-mail.');
+        $data = [
+            'titulo' => 'seja muito bem vindo(a)!',
+            'categorias' => $this->categoriaModel->buscaCategoriasWebHome(),
+            'produtos' => $this->produtoModel->buscaProdutosWebHome(),
+        ];
 
-        if($email->send()) {
-            echo 'E-mail Enviado!';
-        } else {
-            echo $email->printDebugger();
-        }
+        return view('Home/index', $data);
     }
+
 }
