@@ -57,6 +57,7 @@ class CategoriaModel extends Model
         return $this->select('categorias.id, categorias.nome, categorias.slug')
                      ->join('produtos', 'produtos.categoria_id = categorias.id')
                      ->groupBy('categorias.id')
+                     ->where('categorias.ativo', true)
                      ->findAll();
     }
 
