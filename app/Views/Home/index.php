@@ -45,7 +45,7 @@
         <?php foreach($produtos as $produto):  ?>
 
         <div class="col-sm-6 filtr-item image filter active <?php echo $produto->categoria_slug;?>">
-          <a href="<?php echo site_url("produto/imagem/$produto->imagem"); ?>" class="block fancybox"
+          <a href="<?php echo site_url("produto/detalhes/$produto->slug"); ?>" class="block fancybox"
             data-fancybox-group="fancybox">
             <div class="content">
               <div class="filter_item_img">
