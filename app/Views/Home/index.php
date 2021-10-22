@@ -45,12 +45,12 @@
         <?php foreach($produtos as $produto):  ?>
 
         <div class="col-sm-6 filtr-item image filter active <?php echo $produto->categoria_slug;?>">
-          <a href="<?php echo site_url('web/'); ?>src/assets/img/photos/food-1.jpg" class="block fancybox"
+          <a href="<?php echo site_url("produto/imagem/$produto->imagem"); ?>" class="block fancybox"
             data-fancybox-group="fancybox">
             <div class="content">
               <div class="filter_item_img">
                 <i class="fa fa-search-plus"></i>
-                <img src="<?php echo site_url('web/'); ?>src/assets/img/photos/food-1.jpg" alt="sample" />
+                <img src="<?php echo site_url("produto/imagem/$produto->imagem"); ?>" alt="<?php echo esc($produto->nome); ?>" />
               </div>
               <div class="info">
                 <div class="name"><?php echo esc($produto->nome); ?></div>
