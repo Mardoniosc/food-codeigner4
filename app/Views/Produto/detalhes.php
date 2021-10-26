@@ -41,8 +41,8 @@
             <?php foreach($especificacoes as $especificacao ):?>
 
             <div class="radio">
-              <label for="produto[preco]">
-                <input type="radio" class="especificacao"
+              <label for="" style="font-size: 16px;">
+                <input type="radio" style="margin-top: 2px;" class="especificacao"
                   data-especificacao="<?php echo $especificacao->especificacao_id;?>" name="produto[preco]"
                   value="<?php echo $especificacao->preco;?>">
                 <?php echo esc($especificacao->nome);?>
@@ -58,15 +58,15 @@
             <p class="small">Extras do produto</p>
 
             <div class="radio">
-              <label for="extra">
-                <input type="radio" class="extra" name="extra" checked> Sem Extra
+              <label for=""  style="font-size: 16px;">
+                <input type="radio" style="margin-top: 2px;" class="extra" name="extra" checked> Sem Extra
               </label>
             </div>
             <?php foreach($extras as $extra ):?>
 
             <div class="radio">
-              <label for="extra">
-                <input type="radio" class="extra" data-extra="<?php echo $extra->id_principal;?>" name="extra"
+              <label for=""  style="font-size: 16px;">
+                <input type="radio" style="margin-top: 2px;" class="extra" data-extra="<?php echo $extra->id_principal;?>" name="extra"
                   value="<?php echo $extra->preco;?>">
                 <?php echo esc($extra->nome);?>
                 R$&nbsp;<?php echo esc(number_format($extra->preco, 2));?>
@@ -80,7 +80,7 @@
           </h3>
           <hr />
           <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="more-information">
+            <div class="tab-pane fade active in" style="font-size: 16px;" id="more-information">
               <br />
               <strong>É uma delícia</strong>
               <p><?php echo esc($produto->ingredientes); ?></p>
@@ -101,7 +101,7 @@
           <div class="row">
             <div class="col-sm-4">
 
-              <input type="submit" value="Adicionar ao carrinho" class="btn btn-success btn-lg">
+              <input id="btn-adiciona" type="submit" value="Adicionar ao carrinho" class="btn btn-success btn-lg">
 
             </div>
 
@@ -124,5 +124,29 @@
   <?php echo $this->endSection(); ?>
 
   <?php echo $this->section('scripts'); ?>
+
+    <script>
+      $(document).ready(function() {
+
+        var especificacao_id;
+
+        if(!especificacao_id) {
+          $('#btn-adiciona').prop("disabled", true);
+          
+          $('#btn-adiciona').prop("value", 'Selecione um valor');
+        }
+
+        $(".especificacao").on('click', function() {
+          especificacao_id = $(this).attr('data-especificacao');
+
+          $("#especificacao_id").val(especificacao_id);
+
+          $('#btn-adiciona').prop("disabled", false);
+          
+          $('#btn-adiciona').prop("value", 'Adicionar ao carrinho');
+        });
+
+      });
+    </script>
 
   <?php echo $this->endSection(); ?>
