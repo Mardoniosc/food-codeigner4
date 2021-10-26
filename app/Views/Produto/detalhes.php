@@ -132,18 +132,19 @@
 
         if(!especificacao_id) {
           $('#btn-adiciona').prop("disabled", true);
-          
           $('#btn-adiciona').prop("value", 'Selecione um valor');
         }
 
         $(".especificacao").on('click', function() {
           especificacao_id = $(this).attr('data-especificacao');
-
           $("#especificacao_id").val(especificacao_id);
-
           $('#btn-adiciona').prop("disabled", false);
-          
           $('#btn-adiciona').prop("value", 'Adicionar ao carrinho');
+        });
+
+        $(".extra").on('click', function() {
+          var extra_id = $(this).attr('data-extra');
+          $("#extra_id").val(extra_id);
         });
 
       });
