@@ -78,6 +78,14 @@
 
 
           </h3>
+
+          <div class="row" style="margin-top: 4rem;">
+            <div class="col-md-4">
+              <label>Quantidade</label>
+              <input type="number" name="produto[quantidade]" placeholder="Quantidade" class="form-control" value="1" min="1" max="10" step="1" required>
+            </div>
+          </div>
+
           <hr />
           <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active in" style="font-size: 16px;" id="more-information">
@@ -101,12 +109,23 @@
           <div class="row">
             <div class="col-sm-4">
 
-              <input id="btn-adiciona" type="submit" value="Adicionar ao carrinho" class="btn btn-success btn-lg">
+              <input id="btn-adiciona" type="submit" value="Adicionar ao carrinho" class="btn btn-block btn-success">
 
             </div>
 
+            <?php foreach ($especificacoes as $especificacao): ?>
+              <?php if($especificacao->customizavel): ?>
+
+                <div class="col-sm-4">
+                  <a href="<?php echo site_url("produto/customizar/$produto->slug"); ?>" class="btn btn-block btn-primary">Customizar</a>
+                </div>
+                <?php break; ?>
+                
+              <?php endif; ?>
+            <?php endforeach; ?>
+
             <div class="col-sm-4">
-              <a href="<?php echo site_url('/'); ?>" class="btn btn-info btn-lg">Mais delícias</a>
+              <a href="<?php echo site_url('/'); ?>" class="btn btn-block btn-info">Mais delícias</a>
             </div>
           </div>
 
