@@ -109,7 +109,7 @@
           <div class="row">
             <div class="col-sm-4">
 
-              <input id="btn-adiciona" type="submit" value="Adicionar ao carrinho" class="btn btn-block btn-success">
+              <input id="btn-adiciona" type="submit" value="Adicionar" class="btn btn-block btn-success">
 
             </div>
 
@@ -158,7 +158,7 @@
           especificacao_id = $(this).attr('data-especificacao');
           $("#especificacao_id").val(especificacao_id);
           $('#btn-adiciona').prop("disabled", false);
-          $('#btn-adiciona').prop("value", 'Adicionar ao carrinho');
+          $('#btn-adiciona').prop("value", 'Adicionar');
         });
 
         $(".extra").on('click', function() {
