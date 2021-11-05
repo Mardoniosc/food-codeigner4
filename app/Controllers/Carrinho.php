@@ -4,17 +4,22 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ProdutoEspecificacaoModel;
+use App\Models\ProdutoExtraModel;
+use App\Models\ProdutoModel;
 
 class Carrinho extends BaseController {
 
     private $validacao;
     private $produtoEspecificacaoModel;
+    private $produtoExtraModel;
+    private $produtoModel;
 
     public function __construct() {
 
         $this->validacao = service('validation');
         $this->produtoEspecificacaoModel = new ProdutoEspecificacaoModel();
-
+        $this->produtoExtraModel = new ProdutoExtraModel();
+        $this->produtoModel = new ProdutoModel();
     }
 
     public function index() {
@@ -49,9 +54,26 @@ class Carrinho extends BaseController {
                 return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF1001</strong>"); // fraude no form
             }
 
-            dd($especificacaoProduto);
+            /* Caso o extra_id venha no post, validamos a exitência do mesmo */
+            if($produtoPost['extra_id'] && $produtoPost['extra_id'] != "") {
+                $extra = $this->produtoExtraModel->find($produtoPost['extra_id']);
+                
+                
+                if(!$extra) {
+                    return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF2001</strong>"); // fraude no form.. CHAVE: $produtoPost['extra_id']
+                }
+            }
 
+            /* Validamos a existencia do produto */
+            $produto = $this->produtoModel->where('slug', $produtoPost['slug'])->first();
+
+            if(!$produto || !$produto->ativo) {
+                return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF3001</strong>"); // fraude no form.. CHAVE: $produtoPost['slug']
+            }
+
+            dd($produtoPost);
         }
+
 
         return redirect()->back();
     }

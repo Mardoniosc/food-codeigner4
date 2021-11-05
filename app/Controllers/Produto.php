@@ -21,7 +21,7 @@ class Produto extends BaseController {
 
     public function detalhes(string $produto_slug = null) {
 
-        $produto = $this->produtoModel->where('slug', $produto_slug)->first();
+        $produto = $this->produtoModel->where('slug', $produto_slug)->where('ativo', true)->first();
         
         if(!$produto_slug || !$produto) {
 
