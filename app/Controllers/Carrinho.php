@@ -3,14 +3,18 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ProdutoEspecificacaoModel;
 
 class Carrinho extends BaseController {
 
     private $validacao;
+    private $produtoEspecificacaoModel;
 
     public function __construct() {
 
         $this->validacao = service('validation');
+        $this->produtoEspecificacaoModel = new ProdutoEspecificacaoModel();
+
     }
 
     public function index() {
@@ -22,8 +26,6 @@ class Carrinho extends BaseController {
         if($this->request->getMethod() == 'post') {
 
             $produtoPost = $this->request->getPost('produto');
-
-            // dd($produtoPost);
 
             $this->validacao->setRules([
                 'produto.slug' => ['label' => 'Produto', 'rules' => 'required|string'],
@@ -38,6 +40,16 @@ class Carrinho extends BaseController {
                              ->with("atencao", 'Verifique os erros abaixo e tente novamente!')
                              ->withInput();
             }
+
+
+            /* Validamos a existencia da especificacao_id */
+            $especificacaoProduto = $this->produtoEspecificacaoModel->find($produtoPost['especificacao_id']);
+
+            if(!$especificacaoProduto) {
+                return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF1001</strong>"); // fraude no form
+            }
+
+            dd($especificacaoProduto);
 
         }
 

@@ -265,48 +265,51 @@
     </header>
     <!-- End header -->
 
-    <!-- Essa section renderizará os conteúdos especificos da view que estender esse lyout -->
-    <?php if(session()->has('sucesso')):?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Perfeito!</strong> <?php echo session('sucesso');?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="container" style="margin-top: 2em;;">
+      <?php if(session()->has('sucesso')):?>
+
+        <div class="alert alert-success" role="alert">
+          <strong>Perfeito!</strong> <?php echo session('sucesso');?>
         </div>
 
-    <?php endif;?>
+      <?php endif;?>
 
-    <?php if(session()->has('info')):?>
+      <?php if(session()->has('info')):?>
 
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <strong>Informação!</strong> <?php echo session('info');?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="alert alert-info" role="alert">
+          <strong>Informação!</strong> <?php echo session('info');?>
         </div>
 
-    <?php endif;?>
+      <?php endif;?>
 
-    <?php if(session()->has('atencao')):?>
-
+      <?php if(session()->has('atencao')):?>
 
         <div class="alert alert-danger" role="alert">
           <strong>Atenção!</strong> <?php echo session('atencao');?>
         </div>
 
-    <?php endif;?>
+      <?php endif;?>
 
-    <!-- captura os erros de CSRF - Ação não permitida -->
-    <?php if(session()->has('error')):?>
+      <?php if(session()->has('fraude')):?>
 
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong>Error!</strong> <?php echo session('error');?>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="alert alert-warning" role="alert">
+          <strong>Atenção!</strong> <?php echo session('fraude');?>
         </div>
 
-    <?php endif;?>
+      <?php endif;?>
+
+      <!-- captura os erros de CSRF - Ação não permitida -->
+      <?php if(session()->has('error')):?>
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Error!</strong> <?php echo session('error');?>
+        </div>
+
+      <?php endif;?>
+
+    </div>
+
+    <!-- Essa section renderizará os conteúdos especificos da view que estender esse lyout -->
     <?php echo $this->renderSection('conteudo') ?>
 
     <!--  Begin Footer  -->

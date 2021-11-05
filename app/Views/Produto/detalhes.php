@@ -27,19 +27,22 @@
           </div>
         </div>
 
-        <?php if(session()->has('errors_model')): ?>
-
-          <ul>
-            <?php foreach(session('errors_model') as $error): ?>
-              <li class="text-danger"> <?php echo $error; ?> </li>
-            <?php endforeach; ?>
-          </ul>
-
-        <?php endif; ?>
+       
 
         <?php echo form_open("carrinho/adicionar");?>
 
         <div class="col-md-7 col-md-offset-1 col-sm-12 col-xs-12">
+
+          <?php if(session()->has('errors_model')): ?>
+
+            <ul style="margin-left: -1.6em !important; list-style: decimal;">
+              <?php foreach(session('errors_model') as $error): ?>
+                <li class="text-danger"> <?php echo $error; ?> </li>
+              <?php endforeach; ?>
+            </ul>
+
+          <?php endif; ?>
+
           <h2 class="name">
             <?php echo esc($produto->nome); ?>
           </h2>
