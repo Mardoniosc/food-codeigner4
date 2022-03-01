@@ -32,8 +32,7 @@ class Carrinho extends BaseController
         #code
     }
 
-    public function adicionar()
-    {
+    public function adicionar() {
 
         if ($this->request->getMethod() == 'post') {
 
@@ -95,7 +94,24 @@ class Carrinho extends BaseController
             $produto['preco'] = number_format($preco, 2);
             $produto['quantidade'] = (int) $produtoPost['quantidade'];
             $produto['tamanho'] = $especificacaoProduto->nome;
-            dd($produto);
+
+            /** Removemos os atributos sem utilidade */
+            unset($produto['ativo']);
+
+
+            /** Iniciamos a inserção do produto no carrinho */
+
+            if(session()->has('carrinho')) {
+                /** Existe um carrinho de compras... damos sequencia... */
+                dd(session()->get('carrinho'));
+
+            }
+
+            /* Não existe ainda um carrinho de compras na sessão*/
+            $produtos[] = $produto;
+            session()->set('carrinho', $produtos);
+
+            return redirect()->back()->with('sucesso', 'Produto adicionado com sucesso!');
         }
 
 
