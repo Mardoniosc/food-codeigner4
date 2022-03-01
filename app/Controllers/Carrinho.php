@@ -3,32 +3,39 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ExtraModel;
 use App\Models\ProdutoEspecificacaoModel;
 use App\Models\ProdutoExtraModel;
 use App\Models\ProdutoModel;
 
-class Carrinho extends BaseController {
+class Carrinho extends BaseController
+{
 
     private $validacao;
     private $produtoEspecificacaoModel;
     private $produtoExtraModel;
     private $produtoModel;
+    private $extraModel;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->validacao = service('validation');
         $this->produtoEspecificacaoModel = new ProdutoEspecificacaoModel();
         $this->produtoExtraModel = new ProdutoExtraModel();
         $this->produtoModel = new ProdutoModel();
+        $this->extraModel = new ExtraModel();
     }
 
-    public function index() {
+    public function index()
+    {
         #code
     }
 
-    public function adicionar() {
+    public function adicionar()
+    {
 
-        if($this->request->getMethod() == 'post') {
+        if ($this->request->getMethod() == 'post') {
 
             $produtoPost = $this->request->getPost('produto');
 
@@ -39,39 +46,56 @@ class Carrinho extends BaseController {
                 'produto.quantidade' => ['label' => 'Quantidade', 'rules' => 'required|greater_than[0]'],
             ]);
 
-            if(!$this->validacao->withRequest($this->request)->run()) {
+            if (!$this->validacao->withRequest($this->request)->run()) {
                 return redirect()->back()
-                             ->with("errors_model", $this->validacao->getErrors())
-                             ->with("atencao", 'Verifique os erros abaixo e tente novamente!')
-                             ->withInput();
+                    ->with("errors_model", $this->validacao->getErrors())
+                    ->with("atencao", 'Verifique os erros abaixo e tente novamente!')
+                    ->withInput();
             }
 
 
             /* Validamos a existencia da especificacao_id */
-            $especificacaoProduto = $this->produtoEspecificacaoModel->find($produtoPost['especificacao_id']);
+            $especificacaoProduto = $this->produtoEspecificacaoModel
+                ->join('medidas', 'medidas.id = produtos_especificacoes.medida_id')
+                ->where('produtos_especificacoes.id', $produtoPost['especificacao_id'])
+                ->first();
 
-            if(!$especificacaoProduto) {
+
+            if (!$especificacaoProduto) {
                 return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF1001</strong>"); // fraude no form
             }
 
             /* Caso o extra_id venha no post, validamos a exitência do mesmo */
-            if($produtoPost['extra_id'] && $produtoPost['extra_id'] != "") {
-                $extra = $this->produtoExtraModel->find($produtoPost['extra_id']);
-                
-                
-                if(!$extra) {
+            if ($produtoPost['extra_id'] && $produtoPost['extra_id'] != "") {
+                $extra = $this->extraModel->find($produtoPost['extra_id']);
+
+
+                if (!$extra) {
                     return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF2001</strong>"); // fraude no form.. CHAVE: $produtoPost['extra_id']
                 }
             }
 
-            /* Validamos a existencia do produto */
-            $produto = $this->produtoModel->where('slug', $produtoPost['slug'])->first();
+            /** Estamos utilizando o toArray() para que possamos inserir esse objeto no caminho no formato adequado */
+            $produto = $this->produtoModel->select(['id', 'nome', 'slug', 'ativo'])->where('slug', $produtoPost['slug'])->first()->toArray();
 
-            if(!$produto || !$produto->ativo) {
+            /* Validamos a existencia do produto e se o mesmo está ativo */
+            if (!$produto || !$produto['ativo']) {
                 return redirect()->back()->with("fraude", "Não conseguimos processar a sua solicitação! Favor entre em contato com a nossa equipe e informe o código de erro <strong>ERRO-ADD-PROD: xF3001</strong>"); // fraude no form.. CHAVE: $produtoPost['slug']
             }
 
-            dd($produtoPost);
+            /* Criamos o slug composto para identificar ou não o item no carrinho na hora de adicionar */
+            $produto['slug'] = mb_url_title($produto['slug'] . '-' . $especificacaoProduto->nome . '-' . (isset($extra) ? 'com extra-' . $extra->nome : ''), '-', TRUE);
+
+            /** Criamos o nome do produto a parti da especificação e/ou do extra */
+            $produto['nome'] = $produto['nome'] . ' ' . $especificacaoProduto->nome . ' ' . (isset($extra) ? 'Com extra ' . $extra->nome : '');
+
+            /** Definimos o preço quantidade e tamanho do produto */
+            $preco = $especificacaoProduto->preco + (isset($extra) ? $extra->preco : 0);
+
+            $produto['preco'] = number_format($preco, 2);
+            $produto['quantidade'] = (int) $produtoPost['quantidade'];
+            $produto['tamanho'] = $especificacaoProduto->nome;
+            dd($produto);
         }
 
 

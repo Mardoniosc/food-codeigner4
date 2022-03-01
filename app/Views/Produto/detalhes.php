@@ -1,15 +1,15 @@
 <?php echo $this->extend('layout/principal_web'); ?>
 
-<?php 
-  echo $this->section('titulo'); 
-  echo $titulo;
-  echo $this->endSection();
+<?php
+echo $this->section('titulo');
+echo $titulo;
+echo $this->endSection();
 ?>
 
 
 <?php echo $this->section('estilos'); ?>
 
-<link rel="stylesheet" href="<?php echo site_url('web/src/assets/css/produto.css')?>">
+<link rel="stylesheet" href="<?php echo site_url('web/src/assets/css/produto.css') ?>">
 
 <?php echo $this->endSection(); ?>
 
@@ -22,21 +22,20 @@
       <div class="row">
         <div class="col-md-4 col-sm-12 col-xs-12">
           <div class="product-image">
-            <img src="<?php echo site_url("produto/imagem/$produto->imagem"); ?>"
-              alt="<?php echo esc($produto->nome); ?>" />
+            <img src="<?php echo site_url("produto/imagem/$produto->imagem"); ?>" alt="<?php echo esc($produto->nome); ?>" />
           </div>
         </div>
 
-       
 
-        <?php echo form_open("carrinho/adicionar");?>
+
+        <?php echo form_open("carrinho/adicionar"); ?>
 
         <div class="col-md-7 col-md-offset-1 col-sm-12 col-xs-12">
 
-          <?php if(session()->has('errors_model')): ?>
+          <?php if (session()->has('errors_model')) : ?>
 
             <ul style="margin-left: -1.6em !important; list-style: decimal;">
-              <?php foreach(session('errors_model') as $error): ?>
+              <?php foreach (session('errors_model') as $error) : ?>
                 <li class="text-danger"> <?php echo $error; ?> </li>
               <?php endforeach; ?>
             </ul>
@@ -51,42 +50,39 @@
 
             <p class="small">Escolha o valor</p>
 
-            <?php foreach($especificacoes as $especificacao ):?>
+            <?php foreach ($especificacoes as $especificacao) : ?>
 
-            <div class="radio">
-              <label for="" style="font-size: 16px;">
-                <input type="radio" style="margin-top: 2px;" class="especificacao"
-                  data-especificacao="<?php echo $especificacao->especificacao_id;?>" name="produto[preco]"
-                  value="<?php echo $especificacao->preco;?>">
-                <?php echo esc($especificacao->nome);?>
-                R$&nbsp;<?php echo esc(number_format($especificacao->preco, 2));?>
-              </label>
-            </div>
+              <div class="radio">
+                <label for="" style="font-size: 16px;">
+                  <input type="radio" style="margin-top: 2px;" class="especificacao" data-especificacao="<?php echo $especificacao->especificacao_id; ?>" name="produto[preco]" value="<?php echo $especificacao->preco; ?>">
+                  <?php echo esc($especificacao->nome); ?>
+                  R$&nbsp;<?php echo esc(number_format($especificacao->preco, 2)); ?>
+                </label>
+              </div>
 
             <?php endforeach; ?>
 
-            <?php if(isset($extras)): ?>
-            <hr>
+            <?php if (isset($extras)) : ?>
+              <hr>
 
-            <p class="small">Extras do produto</p>
+              <p class="small">Extras do produto</p>
 
-            <div class="radio">
-              <label for=""  style="font-size: 16px;">
-                <input type="radio" style="margin-top: 2px;" class="extra" name="extra" checked> Sem Extra
-              </label>
-            </div>
-            <?php foreach($extras as $extra ):?>
+              <div class="radio">
+                <label for="" style="font-size: 16px;">
+                  <input type="radio" style="margin-top: 2px;" class="extra" name="extra" checked> Sem Extra
+                </label>
+              </div>
+              <?php foreach ($extras as $extra) : ?>
 
-            <div class="radio">
-              <label for=""  style="font-size: 16px;">
-                <input type="radio" style="margin-top: 2px;" class="extra" data-extra="<?php echo $extra->id_principal;?>" name="extra"
-                  value="<?php echo $extra->preco;?>">
-                <?php echo esc($extra->nome);?>
-                R$&nbsp;<?php echo esc(number_format($extra->preco, 2));?>
-              </label>
-            </div>
+                <div class="radio">
+                  <label for="" style="font-size: 16px;">
+                    <input type="radio" style="margin-top: 2px;" class="extra" data-extra="<?php echo $extra->id; ?>" name="extra" value="<?php echo $extra->preco; ?>">
+                    <?php echo esc($extra->nome); ?>
+                    R$&nbsp;<?php echo esc(number_format($extra->preco, 2)); ?>
+                  </label>
+                </div>
 
-            <?php endforeach; ?>
+              <?php endforeach; ?>
             <?php endif; ?>
 
 
@@ -113,8 +109,7 @@
 
             <input type="text" placeholder="produto[slug]" name="produto[slug]" value="<?php echo $produto->slug; ?>">
 
-            <input type="text" placeholder="produto[especificacao_id]" id="especificacao_id"
-              name="produto[especificacao_id]">
+            <input type="text" placeholder="produto[especificacao_id]" id="especificacao_id" name="produto[especificacao_id]">
 
             <input type="text" placeholder="produto[extra_id]" id="extra_id" name="produto[extra_id]">
 
@@ -126,14 +121,14 @@
 
             </div>
 
-            <?php foreach ($especificacoes as $especificacao): ?>
-              <?php if($especificacao->customizavel): ?>
+            <?php foreach ($especificacoes as $especificacao) : ?>
+              <?php if ($especificacao->customizavel) : ?>
 
                 <div class="col-sm-4">
                   <a href="<?php echo site_url("produto/customizar/$produto->slug"); ?>" class="btn btn-block btn-primary">Customizar</a>
                 </div>
                 <?php break; ?>
-                
+
               <?php endif; ?>
             <?php endforeach; ?>
 
@@ -142,7 +137,7 @@
             </div>
           </div>
 
-          <?php echo form_close();?>
+          <?php echo form_close(); ?>
 
         </div>
       </div>
@@ -157,28 +152,28 @@
 
   <?php echo $this->section('scripts'); ?>
 
-    <script>
-      $(document).ready(function() {
+  <script>
+    $(document).ready(function() {
 
-        var especificacao_id;
+      var especificacao_id;
 
-        if(!especificacao_id) {
-          $('#btn-adiciona').prop("disabled", true);
-          $('#btn-adiciona').prop("value", 'Selecione um valor');
-        }
+      if (!especificacao_id) {
+        $('#btn-adiciona').prop("disabled", true);
+        $('#btn-adiciona').prop("value", 'Selecione um valor');
+      }
 
-        $(".especificacao").on('click', function() {
-          especificacao_id = $(this).attr('data-especificacao');
-          $("#especificacao_id").val(especificacao_id);
-          $('#btn-adiciona').prop("disabled", false);
-          $('#btn-adiciona').prop("value", 'Adicionar');
-        });
-
-        $(".extra").on('click', function() {
-          var extra_id = $(this).attr('data-extra');
-          $("#extra_id").val(extra_id);
-        });
+      $(".especificacao").on('click', function() {
+        especificacao_id = $(this).attr('data-especificacao');
+        $("#especificacao_id").val(especificacao_id);
+        $('#btn-adiciona').prop("disabled", false);
+        $('#btn-adiciona').prop("value", 'Adicionar');
       });
-    </script>
+
+      $(".extra").on('click', function() {
+        var extra_id = $(this).attr('data-extra');
+        $("#extra_id").val(extra_id);
+      });
+    });
+  </script>
 
   <?php echo $this->endSection(); ?>
