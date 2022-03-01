@@ -32,7 +32,8 @@ class Carrinho extends BaseController
         #code
     }
 
-    public function adicionar() {
+    public function adicionar()
+    {
 
         if ($this->request->getMethod() == 'post') {
 
@@ -101,10 +102,32 @@ class Carrinho extends BaseController
 
             /** Iniciamos a inserção do produto no carrinho */
 
-            if(session()->has('carrinho')) {
+            if (session()->has('carrinho')) {
                 /** Existe um carrinho de compras... damos sequencia... */
-                dd(session()->get('carrinho'));
 
+                /** Recuperando os produtos do carrinho */
+                $produtos = session()->get('carrinho');
+
+
+                /* Recuperandos apenas os slugs dos produtos do carrinho */
+                $produtosSlugs = array_column($produtos, 'slug');
+
+
+                if (in_array($produto['slug'], $produtosSlugs)) {
+
+                    /** Ja existe o produto no carrinho... Incrementamos a quantidade */
+                } else {
+                    /* Não exite no carrinho pode adicionar */
+    
+    
+                    /**
+                     * ! Adicionamos no carrinho exitente o $produto.
+                     * * Notem que o push adiciona na sessão 'carrinho' um array [ $produtos ]
+                     */
+                    session()->push('carrinho', [$produto]);
+    
+                    return redirect()->back()->with('sucesso', 'Produto adicionado com sucesso!');
+                }
             }
 
             /* Não existe ainda um carrinho de compras na sessão*/
