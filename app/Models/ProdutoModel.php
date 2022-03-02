@@ -90,6 +90,22 @@ class ProdutoModel extends Model {
     }
 
     /**
+     * @use no controller Produto/customizar
+     * @param int $categoria_id
+     * @return array de bojetos
+     */
+    public function exibeOpcoesProdutosCustomizar(int $categoria_id)
+    {
+        return $this->select(['produtos.id', 'produtos.nome'])
+                    ->join('produtos_especificacoes', 'produtos_especificacoes.produto_id = produtos.id')
+                    ->where('produtos.categoria_id', $categoria_id)
+                    ->where('produtos.ativo', true)
+                    ->where('produtos_especificacoes.customizavel', true)
+                    ->groupBy('produtos.nome')
+                    ->findAll();
+    }
+
+    /**
      * @uso Controller produto no método procurar com o autocomplete
      * @param string $term
      * @return array produtos

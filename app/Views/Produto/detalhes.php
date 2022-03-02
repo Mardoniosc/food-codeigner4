@@ -107,11 +107,11 @@ echo $this->endSection();
 
           <div>
 
-            <input type="text" placeholder="produto[slug]" name="produto[slug]" value="<?php echo $produto->slug; ?>">
+            <input type="hidden" placeholder="produto[slug]" name="produto[slug]" value="<?php echo $produto->slug; ?>">
 
-            <input type="text" placeholder="produto[especificacao_id]" id="especificacao_id" name="produto[especificacao_id]">
+            <input type="hidden" placeholder="produto[especificacao_id]" id="especificacao_id" name="produto[especificacao_id]">
 
-            <input type="text" placeholder="produto[extra_id]" id="extra_id" name="produto[extra_id]">
+            <input type="hidden" placeholder="produto[extra_id]" id="extra_id" name="produto[extra_id]">
 
           </div>
           <div class="row">
